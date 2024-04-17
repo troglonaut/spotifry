@@ -31,6 +31,7 @@ export async function getToken(code: string | string[]) {
       code,
       redirect_uri: redirectUrl,
       code_verifier: code_verifier,
+      response_type: "code",
     }),
   });
 
