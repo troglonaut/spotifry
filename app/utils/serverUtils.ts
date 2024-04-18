@@ -15,3 +15,16 @@ export const getAuthSession = async () => {
 
   return session;
 };
+
+export const customGet = async (url: string, session: AuthSession | null) => {
+  if (!session) {
+    return null;
+  }
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${session.user.accessToken}`,
+    },
+  }).then((res) => res.json());
+
+  return res;
+};
