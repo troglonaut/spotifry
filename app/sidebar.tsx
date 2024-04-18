@@ -1,7 +1,9 @@
-export default function SideBar({ userId }: { userId: string }) {
+import { AuthSession, Profile } from "@/types/types";
+
+export default function SideBar({ profile }: { profile: Profile }) {
   return (
     <>
-      <h1>{userId}</h1>
+      <h1>Hello</h1>
     </>
   );
 }

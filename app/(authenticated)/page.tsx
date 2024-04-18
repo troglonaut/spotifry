@@ -21,7 +21,7 @@ export default async function Home() {
   return (
     <>
       <h1>hello {user.name}</h1>
-      <SideBar userId={profile.id} />
+      <SideBar profile={profile} />
       {profileEntries.map((entry) => {
         return (
           <div className="flex" key={entry[0]}>
