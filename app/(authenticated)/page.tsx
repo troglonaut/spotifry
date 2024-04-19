@@ -21,7 +21,11 @@ export default async function Home() {
   return (
     <>
       <h1>hello {user.name}</h1>
-      <SideBar topTracks={topTracks} topArtists={topArtists} />
+      <SideBar
+        topTracks={topTracks}
+        topArtists={topArtists}
+        session={session}
+      />
     </>
   );
 }

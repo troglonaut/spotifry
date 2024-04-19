@@ -52,11 +52,12 @@ export interface Audiobook {
 }
 
 export interface AuthorObject {
-  name: string;
+  name?: string;
 }
 
 export interface AuthUser {
   accessToken: string;
+  refreshToken: string;
   email: string;
   expires_at: number;
   image?: string | null;
@@ -107,8 +108,8 @@ export interface Chapter {
 }
 
 export interface CopyrightObject {
-  text: string;
-  type: "C" | "P";
+  text?: string;
+  type?: "C" | "P";
 }
 
 export interface EpisodeObject {
@@ -146,7 +147,7 @@ export interface ExternalIds {
 }
 
 export interface ExternalUrls {
-  spotify: string;
+  spotify?: string;
 }
 
 export interface Followers {
@@ -161,7 +162,7 @@ export interface ImageObject {
 }
 
 export interface NarratorObject {
-  name: string;
+  name?: string;
 }
 
 export interface Owner {
@@ -218,8 +219,8 @@ export interface Restrictions {
 }
 
 export interface ResumePoint {
-  fully_played: boolean;
-  resume_position_ms: number;
+  fully_played?: boolean;
+  resume_position_ms?: number;
 }
 
 export interface SimplifiedArtistObject {

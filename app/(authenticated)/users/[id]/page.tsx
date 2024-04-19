@@ -1,4 +1,4 @@
-import { getUsersProfile } from "@/app/lib/actions";
+import { getUserById } from "@/app/lib/actions";
 import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
 import { User } from "@/types/types";
 import { notFound, redirect } from "next/navigation";
@@ -14,7 +14,7 @@ export default async function UsersPage({
     redirect("/login");
   }
 
-  const user = (await getUsersProfile({ session, id: params.id })) as User;
+  const user = (await getUserById({ session, id: params.id })) as User;
 
   if (!user.id) {
     notFound();

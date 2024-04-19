@@ -1,14 +1,51 @@
 "use client";
 
+import { ArtistObject, AuthSession, TrackObject } from "@/types/types";
+import { useEffect } from "react";
+import { refreshAccessToken } from "./lib/actions";
+
 // import { AuthSession, User } from "@/types/types";
 
 export default function SideBar({
   topTracks,
   topArtists,
+  session,
 }: {
-  topTracks: any;
-  topArtists: any;
+  topTracks: TrackObject[];
+  topArtists: ArtistObject[];
+  session: AuthSession;
 }) {
+  const { accessToken, refreshToken, expires_at } = session.user;
+  const oneMinuteEarlySec = Date.parse(Date()) / 1000 - 60;
+
+  console.info(
+    `%c🔬 expires_at - oneMinuteEarlySec`,
+    "color: limegreen; font-size: 20px;",
+    expires_at - oneMinuteEarlySec
+  );
+  let mostRecentIntervalId: string;
+  // const intervalId = setInterval(pollForRefresh, 5000);
+
+  function clear() {
+    clearInterval(mostRecentIntervalId);
+  }
+
+  function pollForRefresh() {
+    const now = Date();
+    const nowSec = Date.parse(now) / 1000;
+    const oneMinuteEarlySec = expires_at - 3100;
+    if (nowSec >= oneMinuteEarlySec) {
+      refreshAccessToken(accessToken, refreshToken);
+    }
+  }
+
+  useEffect(() => {
+    clear();
+    window.localStorage.setItem("access_token", accessToken);
+    window.localStorage.setItem("refresh_token", refreshToken);
+    setInterval(pollForRefresh, 5000);
+  }, [accessToken, refreshToken]);
+  // console.info(`%c🔬 session`, "color: limegreen; font-size: 20px;", session);
   // console.info(
   //   `%c🔬 topTracks`,
   //   "color: limegreen; font-size: 20px;",
@@ -26,7 +63,13 @@ export default function SideBar({
   // );
   return (
     <>
-      <h1>Hello</h1>
+      <h1
+        onClick={() => {
+          refreshAccessToken(accessToken, refreshToken);
+        }}
+      >
+        Hello
+      </h1>
     </>
   );
 }

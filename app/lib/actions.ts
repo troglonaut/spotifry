@@ -1,27 +1,16 @@
-import { AuthSession, User } from "@/types/types";
+import { AuthSession, AuthUser, User } from "@/types/types";
 import { customFetch } from "@/app/utils/serverUtils";
 
-export const SPOTIFY_URL_BASE = "https://api.spotify.com/v1";
+export const SPOTIFY_URL_BASE = "https://api.spotify.com";
 
 // USERS ACTIONS
 export const getCurrentUserProfile = async (
   session: AuthSession
-): Promise<User> => {
-  return await fetch(`${SPOTIFY_URL_BASE}/me`, {
-    headers: {
-      Authorization: `Bearer ${session.user.accessToken}`,
-    },
-  }).then((res) => res.json());
-};
+): Promise<User> => customFetch(`${SPOTIFY_URL_BASE}/v1/me`, session);
 
-export const getUsersProfile = async ({
-  session,
-  id,
-}: {
-  session: AuthSession;
-  id: string;
-}) => customFetch(`${SPOTIFY_URL_BASE}/users/${id}`, session);
-
+/**
+ * @description get user's top ARTISTS or TRACKS
+ */
 export const getUsersTopItems = async ({
   type,
   session,
@@ -34,4 +23,29 @@ export const getUsersTopItems = async ({
   time_range?: string;
   limit?: number;
   offset?: number;
-}) => customFetch(`${SPOTIFY_URL_BASE}/me/top/${type}`, session);
+}) => customFetch(`${SPOTIFY_URL_BASE}/v1/me/top/${type}`, session);
+
+export const getUserById = async ({
+  session,
+  id,
+}: {
+  session: AuthSession;
+  id: string;
+}): Promise<User> => customFetch(`${SPOTIFY_URL_BASE}/v1/users/${id}`, session);
+
+export async function refreshAccessToken(
+  accessToken: string,
+  refreshToken: string
+) {
+  return await fetch("https://accounts.spotify.com/api/token", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      refresh_token: refreshToken,
+      grant_type: "refresh_token",
+      client_id: "3c789a24b3c749ebb8ae6d250a97cd06",
+    }),
+  }).then((res) => res.json());
+}
