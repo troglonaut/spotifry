@@ -1,5 +1,5 @@
 import { AuthSession, User } from "@/types/types";
-import { customFetch } from "../utils/serverUtils";
+import { customFetch } from "@/app/utils/serverUtils";
 
 export const SPOTIFY_URL_BASE = "https://api.spotify.com/v1";
 

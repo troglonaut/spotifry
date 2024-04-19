@@ -8,10 +8,10 @@ export default async function ProfilePage() {
   if (!session) {
     redirect("/login");
   }
-  const profile = await getCurrentUserProfile(session);
+  const user = await getCurrentUserProfile(session);
 
   const { profileImgSrc, profileImgHeight, profileImgWidth } = profileImg({
-    user: profile,
+    user,
   });
 
   return (
@@ -23,9 +23,9 @@ export default async function ProfilePage() {
         alt="Profile picture"
         priority
       />
-      <h1>{profile.country}</h1>
-      <h1>{profile.display_name}</h1>
-      <h1>{profile.email}</h1>
+      <h1>{user.country}</h1>
+      <h1>{user.display_name}</h1>
+      <h1>{user.email}</h1>
     </>
   );
 }

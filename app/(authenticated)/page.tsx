@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getAuthSession } from "@/app/utils/serverUtils";
-import { getUsersTopItems } from "../lib/actions";
-import SideBar from "../sidebar";
+import { getUsersTopItems } from "@/app/lib/actions";
+import SideBar from "@/app/sidebar";
 
 export const metadata = {
   title: "Home",
