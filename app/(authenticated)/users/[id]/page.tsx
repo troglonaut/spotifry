@@ -1,7 +1,10 @@
 import { getUsersProfile } from "@/app/lib/actions";
-import { getAuthSession } from "@/app/utils/serverUtils";
+import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
 import { User } from "@/types/types";
 import { notFound, redirect } from "next/navigation";
+import Image from "next/image";
+import defaultProfileImage from "@/public/images/profile.png";
+import { todo } from "node:test";
 
 export default async function UsersPage({
   params,
@@ -19,8 +22,21 @@ export default async function UsersPage({
     notFound();
   }
 
+  const { profileImgSrc, profileImgHeight, profileImgWidth } = profileImg({
+    session,
+    user,
+  });
+
   return (
     <main>
+      <Image
+        src={profileImgSrc}
+        width={profileImgWidth}
+        height={profileImgHeight}
+        alt="Profile picture"
+        priority
+      />
+
       <h1>{user.display_name}</h1>
     </main>
   );

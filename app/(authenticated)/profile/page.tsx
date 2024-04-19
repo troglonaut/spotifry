@@ -1,22 +1,27 @@
 import { getCurrentUserProfile } from "@/app/lib/actions";
-import { getAuthSession } from "@/app/utils/serverUtils";
+import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
 import { redirect } from "next/navigation";
+import defaultProfileImage from "@/public/images/profile.png";
 import Image from "next/image";
 
 export default async function ProfilePage() {
   const session = await getAuthSession();
-
   if (!session) {
     redirect("/login");
   }
   const profile = await getCurrentUserProfile(session);
 
+  const { profileImgSrc, profileImgHeight, profileImgWidth } = profileImg({
+    session,
+    user: profile,
+  });
+
   return (
     <>
       <Image
-        src={profile.images[1].url as string}
-        width={profile.images[1].width as number}
-        height={profile.images[1].height as number}
+        src={profileImgSrc}
+        width={profileImgWidth}
+        height={profileImgHeight}
         alt="Profile picture"
         priority
       />
