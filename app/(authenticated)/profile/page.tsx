@@ -1,7 +1,6 @@
 import { getCurrentUserProfile } from "@/app/lib/actions";
 import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
 import { redirect } from "next/navigation";
-import defaultProfileImage from "@/public/images/profile.png";
 import Image from "next/image";
 
 export default async function ProfilePage() {
