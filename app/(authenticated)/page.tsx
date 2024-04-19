@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getAuthSession } from "@/app/utils/serverUtils";
-import { getCurrentUserProfile } from "../lib/actions";
+import { getUsersTopItems } from "../lib/actions";
 import SideBar from "../sidebar";
 
 export const metadata = {
@@ -15,20 +15,13 @@ export default async function Home() {
   }
 
   const { user } = session;
-  const profile = await getCurrentUserProfile(session);
-  const profileEntries = Object.entries(profile);
+  const topTracks = await getUsersTopItems({ type: "tracks", session });
+  const topArtists = await getUsersTopItems({ type: "artists", session });
 
   return (
     <>
       <h1>hello {user.name}</h1>
-      <SideBar profile={profile} />
-      {profileEntries.map((entry) => {
-        return (
-          <div className="flex" key={entry[0]}>
-            {entry[0]}: {new String(entry[1])}
-          </div>
-        );
-      })}
+      <SideBar topTracks={topTracks} topArtists={topArtists} />
     </>
   );
 }

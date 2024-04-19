@@ -16,7 +16,7 @@ export const getAuthSession = async () => {
   return session;
 };
 
-export const customGet = async (url: string, session: AuthSession | null) => {
+export const customFetch = async (url: string, session: AuthSession | null) => {
   if (!session) {
     return null;
   }
