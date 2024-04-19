@@ -12,7 +12,6 @@ export default async function ProfilePage() {
   const profile = await getCurrentUserProfile(session);
 
   const { profileImgSrc, profileImgHeight, profileImgWidth } = profileImg({
-    session,
     user: profile,
   });
 

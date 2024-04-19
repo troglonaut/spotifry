@@ -32,12 +32,10 @@ export const customFetch = async (url: string, session: AuthSession | null) => {
 };
 
 export const profileImg = ({
-  session,
   user,
   width,
   height,
 }: {
-  session: AuthSession;
   user: User;
   width?: number;
   height?: number;
