@@ -45,7 +45,7 @@ export async function refreshAccessToken(
     body: JSON.stringify({
       refresh_token: refreshToken,
       grant_type: "refresh_token",
-      client_id: "3c789a24b3c749ebb8ae6d250a97cd06",
+      client_id: "none",
     }),
   }).then((res) => res.json());
 }
