@@ -1,6 +1,6 @@
 "use client";
 
-import { AuthSession, User } from "@/types/types";
+// import { AuthSession, User } from "@/types/types";
 
 export default function SideBar({
   topTracks,
