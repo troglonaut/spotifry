@@ -1,3 +1,4 @@
+import "@/app/globals.css";
 import { NextAuthProvider } from "@/app/providers/NextAuthProvider";
 
 export default function RootLayout({

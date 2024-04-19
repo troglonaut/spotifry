@@ -14,6 +14,14 @@ export const getCurrentUserProfile = async (
   }).then((res) => res.json());
 };
 
+export const getUsersProfile = async ({
+  session,
+  id,
+}: {
+  session: AuthSession;
+  id: string;
+}) => customFetch(`${SPOTIFY_URL_BASE}/users/${id}`, session);
+
 export const getUsersTopItems = async ({
   type,
   session,
@@ -27,11 +35,3 @@ export const getUsersTopItems = async ({
   limit?: number;
   offset?: number;
 }) => customFetch(`${SPOTIFY_URL_BASE}/me/top/${type}`, session);
-
-export const getUsersProfile = async ({
-  session,
-  id,
-}: {
-  session: AuthSession;
-  id: string;
-}) => customFetch(`${SPOTIFY_URL_BASE}/users/${id}`, session);

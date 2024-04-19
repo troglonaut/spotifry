@@ -1,5 +1,6 @@
-"use client";
+// "use client";
 
+import "@/app/globals.css";
 import { NextAuthProvider } from "@/app/providers/NextAuthProvider";
 import { Montserrat } from "next/font/google";
 

@@ -1,8 +1,8 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { AuthSession, User } from "@/types/types";
 import { getServerSession } from "next-auth/next";
 import defaultProfileImage from "@/public/images/profile.png";
 import { StaticImageData } from "next/image";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 export const getAuthSession = async () => {
   const session = (await getServerSession(authOptions)) as AuthSession;
