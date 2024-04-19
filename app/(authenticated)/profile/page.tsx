@@ -15,8 +15,8 @@ export default async function ProfilePage() {
     <>
       <Image
         src={profile.images[1].url as string}
-        width={profile.images[1].width}
-        height={profile.images[1].height}
+        width={profile.images[1].width as number}
+        height={profile.images[1].height as number}
         alt="Profile picture"
         priority
       />
