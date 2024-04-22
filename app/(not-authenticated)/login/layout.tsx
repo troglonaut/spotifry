@@ -12,12 +12,12 @@ export default function LoginPageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <NextAuthProvider>
-        <body className={fontFamily.className + " text-white bg-paper-700"}>
+    <NextAuthProvider>
+      <html lang="en">
+        <body className={fontFamily.className + " text-white"}>
           <main>{children}</main>
         </body>
-      </NextAuthProvider>
-    </html>
+      </html>
+    </NextAuthProvider>
   );
 }

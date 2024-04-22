@@ -25,7 +25,7 @@ export default async function UsersPage({
   });
 
   return (
-    <main>
+    <>
       <Image
         src={profileImgSrc}
         width={profileImgWidth}
@@ -35,6 +35,6 @@ export default async function UsersPage({
       />
 
       <h1>{user.display_name}</h1>
-    </main>
+    </>
   );
 }

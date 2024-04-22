@@ -7,12 +7,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <NextAuthProvider>
+    <NextAuthProvider>
+      <html lang="en">
         <body>
-          <main className="mx-8 my-4">{children}</main>
+          <main>{children}</main>
         </body>
-      </NextAuthProvider>
-    </html>
+      </html>
+    </NextAuthProvider>
   );
 }
