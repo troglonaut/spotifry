@@ -2,16 +2,16 @@ import { getCurrentUserProfile } from "@/app/lib/actions";
 import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import Typography from "@mui/material/Typography";
 
 export default async function ProfilePage() {
   const session = await getAuthSession();
   if (!session) {
     redirect("/login");
   }
-  const user = await getCurrentUserProfile(session);
-
+  const profile = await getCurrentUserProfile(session);
   const { profileImgSrc, profileImgHeight, profileImgWidth } = profileImg({
-    user,
+    profile,
   });
 
   return (
@@ -24,9 +24,12 @@ export default async function ProfilePage() {
         className="rounded"
         priority
       />
-      <h1 className="text-orange-700">{user.country}</h1>
-      <h1 className="font-bold">{user.display_name}</h1>
-      <h1 className="test-class">{user.email}</h1>
+      <Typography variant="h1" className="font-bold">
+        {profile.display_name}
+      </Typography>
+      <Typography variant="h2" className="test-class">
+        {profile.email}
+      </Typography>
     </>
   );
 }

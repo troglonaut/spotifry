@@ -1,4 +1,4 @@
-import { AuthSession, User } from "@/types/types";
+import { AuthSession, Profile } from "@/types/types";
 import { getServerSession } from "next-auth/next";
 import defaultProfileImage from "@/public/images/profile.png";
 import { StaticImageData } from "next/image";
@@ -32,22 +32,24 @@ export const customFetch = async (url: string, session: AuthSession | null) => {
 };
 
 export const profileImg = ({
-  user,
+  profile,
   width,
   height,
 }: {
-  user: User;
+  profile: Profile;
   width?: number;
   height?: number;
 }) => {
   const profileImgSrc: string | StaticImageData =
-    (user.images.length && user.images[user.images.length - 1].url) ||
+    (profile.images.length && profile.images[profile.images.length - 1].url) ||
     defaultProfileImage;
 
   const [profileImgWidth, profileImgHeight] = [
-    (user.images.length && user.images[user.images.length - 1]?.width) ||
+    (profile.images.length &&
+      profile.images[profile.images.length - 1]?.width) ||
       defaultProfileImage.width,
-    (user.images.length && user.images[user.images.length - 1]?.height) ||
+    (profile.images.length &&
+      profile.images[profile.images.length - 1]?.height) ||
       defaultProfileImage.height,
   ];
 

@@ -1,8 +1,9 @@
 import { getUserById } from "@/app/lib/actions";
 import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
-import { User } from "@/types/types";
+import { Profile } from "@/types/types";
 import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
+import Typography from "@mui/material/Typography";
 
 export default async function UsersPage({
   params,
@@ -14,14 +15,14 @@ export default async function UsersPage({
     redirect("/login");
   }
 
-  const user = (await getUserById({ session, id: params.id })) as User;
+  const profile = (await getUserById({ session, id: params.id })) as Profile;
 
-  if (!user.id) {
+  if (!profile.id) {
     notFound();
   }
 
   const { profileImgSrc, profileImgHeight, profileImgWidth } = profileImg({
-    user,
+    profile,
   });
 
   return (
@@ -34,7 +35,7 @@ export default async function UsersPage({
         priority
       />
 
-      <h1>{user.display_name}</h1>
+      <Typography variant="h3">{profile.display_name}</Typography>
     </>
   );
 }

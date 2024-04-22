@@ -201,7 +201,7 @@ export interface PlaylistTrackObject {
   uri: string;
 }
 
-export interface User {
+export interface Profile {
   country: string;
   display_name: string;
   email: string;
@@ -223,6 +223,62 @@ export interface ResumePoint {
   resume_position_ms?: number;
 }
 
+export interface SearchRequest {
+  q: string;
+  type: string[];
+  market?: string;
+  limit?: number;
+  offset?: number;
+  included_external?: "audio";
+}
+
+export interface SearchResponse {
+  tracks: SearchTracksObj;
+  artists: SearchArtistsObj;
+  albums: SearchAlbumsObj;
+  playlists: SearchPlaylistsObj;
+  shows: SearchShowsObj;
+  episodes: SearchEpisodesObj;
+  audiobooks: SearchAudiobooksObj;
+}
+
+export interface SearchResponseObj {
+  href: string;
+  limit: number;
+  next: string | null;
+  offset: number;
+  previous: string | null;
+  total: number;
+}
+
+export interface SearchAlbumsObj extends SearchResponseObj {
+  items: SimplifiedPlaylistObject[];
+}
+
+export interface SearchArtistsObj extends SearchResponseObj {
+  items: ArtistObject[];
+}
+
+export interface SearchAudiobooksObj extends SearchResponseObj {
+  items: SimplifiedAudiobookObject[];
+}
+
+export interface SearchEpisodesObj extends SearchResponseObj {
+  items: SimplifiedEpisodeObject[];
+}
+
+export interface SearchShowsObj extends SearchResponseObj {
+  items: SimplifiedShowObject[];
+}
+
+export interface SearchTracksObj extends SearchResponseObj {
+  items: TrackObject[];
+}
+
+export interface SearchPlaylistsObj extends SearchResponseObj {
+  items: Playlist[];
+}
+
 export interface SimplifiedArtistObject {
   external_urls: ExternalUrls;
   href: string;
@@ -230,6 +286,91 @@ export interface SimplifiedArtistObject {
   name: string;
   type: "artist";
   uri: string;
+}
+
+export interface SimplifiedAudiobookObject {
+  authors: AuthorObject[];
+  available_markets: string[];
+  copyrights: CopyrightObject;
+  decription: string;
+  html_description: string;
+  edition: string;
+  explicit: boolean;
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
+  images: ImageObject[];
+  languages: string[];
+  media_type: string;
+  name: string;
+  narrators: NarratorObject[];
+  publisher: string;
+  type: string;
+  uri: string;
+  total_chapters: number;
+}
+
+export interface SimplifiedEpisodeObject {
+  audio_preview_url: string | null;
+  description: string;
+  html_description: string;
+  duration_ms: number;
+  explicit: boolean;
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
+  images: ImageObject[];
+  is_externally_hosted: boolean;
+  is_playable: boolean;
+  languages: string[];
+  name: string;
+  release_date: string;
+  release_date_precision: "year" | "month" | "day";
+  resume_point: ResumePoint;
+  type: "episode";
+  uri: string;
+  restrictions: Restrictions;
+}
+
+export interface SimplifiedPlaylistObject {
+  collaborative: boolean;
+  description: string;
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
+  images: ImageObject[];
+  name: string;
+  owner: Owner;
+  public: boolean;
+  snapshot_id: string;
+  tracks: SimpleTracks;
+  type: "playlist";
+  uri: string;
+}
+
+export interface SimplifiedShowObject {
+  available_markets: string[];
+  copyrights: CopyrightObject;
+  description: string;
+  html_description: string;
+  explicit: boolean;
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
+  images: ImageObject[];
+  is_externally_hosted: boolean;
+  languages: string[];
+  media_type: string;
+  name: string;
+  publisher: string;
+  type: "show";
+  uri: string;
+  total_episodes: number;
+}
+
+export interface SimpleTracks {
+  href: string;
+  total: number;
 }
 
 export interface ShowObject {

@@ -1,4 +1,4 @@
-import { AuthSession, AuthUser, User } from "@/types/types";
+import { AuthSession, AuthUser, Profile } from "@/types/types";
 import { customFetch } from "@/app/utils/serverUtils";
 
 export const SPOTIFY_URL_BASE = "https://api.spotify.com";
@@ -6,7 +6,7 @@ export const SPOTIFY_URL_BASE = "https://api.spotify.com";
 // USERS ACTIONS
 export const getCurrentUserProfile = async (
   session: AuthSession
-): Promise<User> => customFetch(`${SPOTIFY_URL_BASE}/v1/me`, session);
+): Promise<Profile> => customFetch(`${SPOTIFY_URL_BASE}/v1/me`, session);
 
 /**
  * @description get user's top ARTISTS or TRACKS
@@ -31,7 +31,8 @@ export const getUserById = async ({
 }: {
   session: AuthSession;
   id: string;
-}): Promise<User> => customFetch(`${SPOTIFY_URL_BASE}/v1/users/${id}`, session);
+}): Promise<Profile> =>
+  customFetch(`${SPOTIFY_URL_BASE}/v1/users/${id}`, session);
 
 export async function refreshAccessToken(
   accessToken: string,

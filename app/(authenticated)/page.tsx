@@ -20,15 +20,8 @@ export default async function Home() {
     redirect("/login");
   }
 
-  const { user } = session;
-  console.info(
-    `%c🔬 user.image`,
-    "color: limegreen; font-size: 20px;",
-    user.image
-  );
-
   const profile = await getCurrentUserProfile(session);
-  const { profileImgSrc, profileImgHeight, profileImgWidth } = profileImg({
+  const { profileImgSrc } = profileImg({
     user: profile,
   });
   const topTracks = await getUsersTopItems({ type: "tracks", session });
@@ -38,16 +31,16 @@ export default async function Home() {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" className="flex flex-row justify-between">
-          <div>
-            <Typography variant="h6">hello {user.name}</Typography>
-          </div>
+          <Box>
+            <Typography variant="h6">hello {session.user.name}</Typography>
+          </Box>
 
           <IconButton>
             <Avatar src={profileImgSrc as string}></Avatar>
           </IconButton>
         </AppBar>
       </Box>
-      <Typography>hello {user.name}</Typography>
+      <Typography>hello {session.user.name}</Typography>
       <SideBar
         topTracks={topTracks}
         topArtists={topArtists}
