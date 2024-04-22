@@ -22,7 +22,7 @@ export default async function Home() {
 
   const profile = await getCurrentUserProfile(session);
   const { profileImgSrc } = profileImg({
-    user: profile,
+    profile,
   });
   const topTracks = await getUsersTopItems({ type: "tracks", session });
   const topArtists = await getUsersTopItems({ type: "artists", session });
