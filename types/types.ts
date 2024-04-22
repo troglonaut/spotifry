@@ -10,7 +10,7 @@ export interface Album {
   images: ImageObject[];
   name: string;
   release_date: string;
-  release_date_precision: "year" | "month" | "day";
+  release_date_precision: ReleaseDatePrecision;
   restrictions: Restrictions;
   type: "album";
   uri: string;
@@ -99,7 +99,7 @@ export interface Chapter {
   languages: string[];
   name: string;
   release_date: string;
-  release_date_precision: "year" | "month" | "day";
+  release_date_precision: ReleaseDatePrecision;
   resume_point?: ResumePoint;
   type: "episode";
   uri: string;
@@ -127,7 +127,7 @@ export interface EpisodeObject {
   languages: string[];
   name: string;
   release_date: string;
-  release_date_precision: "year" | "month" | "day";
+  release_date_precision: ReleaseDatePrecision;
   resume_point: ResumePoint;
   type: "episode";
   uri: string;
@@ -214,6 +214,12 @@ export interface Profile {
   uri: string;
 }
 
+export interface ReleaseDatePrecision {
+  YEAR: "year";
+  MONTH: "month";
+  DAY: "day";
+}
+
 export interface Restrictions {
   reason: "market" | "product" | "explicit";
 }
@@ -242,40 +248,73 @@ export interface SearchResponse {
   audiobooks: SearchAudiobooksObj;
 }
 
-export interface SearchResponseObj {
+export interface SearchAlbumsObj {
   href: string;
   limit: number;
   next: string | null;
   offset: number;
   previous: string | null;
   total: number;
-}
-
-export interface SearchAlbumsObj extends SearchResponseObj {
   items: SimplifiedPlaylistObject[];
 }
 
-export interface SearchArtistsObj extends SearchResponseObj {
+export interface SearchArtistsObj {
+  href: string;
+  limit: number;
+  next: string | null;
+  offset: number;
+  previous: string | null;
+  total: number;
   items: ArtistObject[];
 }
 
-export interface SearchAudiobooksObj extends SearchResponseObj {
+export interface SearchAudiobooksObj {
+  href: string;
+  limit: number;
+  next: string | null;
+  offset: number;
+  previous: string | null;
+  total: number;
   items: SimplifiedAudiobookObject[];
 }
 
-export interface SearchEpisodesObj extends SearchResponseObj {
+export interface SearchEpisodesObj {
+  href: string;
+  limit: number;
+  next: string | null;
+  offset: number;
+  previous: string | null;
+  total: number;
   items: SimplifiedEpisodeObject[];
 }
 
-export interface SearchShowsObj extends SearchResponseObj {
+export interface SearchShowsObj {
+  href: string;
+  limit: number;
+  next: string | null;
+  offset: number;
+  previous: string | null;
+  total: number;
   items: SimplifiedShowObject[];
 }
 
-export interface SearchTracksObj extends SearchResponseObj {
+export interface SearchTracksObj {
+  href: string;
+  limit: number;
+  next: string | null;
+  offset: number;
+  previous: string | null;
+  total: number;
   items: TrackObject[];
 }
 
-export interface SearchPlaylistsObj extends SearchResponseObj {
+export interface SearchPlaylistsObj {
+  href: string;
+  limit: number;
+  next: string | null;
+  offset: number;
+  previous: string | null;
+  total: number;
   items: Playlist[];
 }
 
@@ -325,7 +364,7 @@ export interface SimplifiedEpisodeObject {
   languages: string[];
   name: string;
   release_date: string;
-  release_date_precision: "year" | "month" | "day";
+  release_date_precision: ReleaseDatePrecision;
   resume_point: ResumePoint;
   type: "episode";
   uri: string;
