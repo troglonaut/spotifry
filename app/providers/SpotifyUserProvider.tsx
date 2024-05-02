@@ -10,16 +10,6 @@ import {
   useState,
 } from "react";
 
-// // import { SessionProvider } from "next-auth/react";
-
-// type Props = {
-//   children?: React.ReactNode;
-// };
-
-// export const NextAuthProvider = ({ children }: Props) => {
-//   return <SessionProvider>{children}</SessionProvider>;
-// };
-// const SpotifyUserContext = createContext({user: null, setUser: () => ''})
 const SpotifyUserContext = createContext<{
   user: Profile | null;
   setUser: Dispatch<SetStateAction<Profile | null>>;
