@@ -56,6 +56,11 @@ export default async function Home() {
         </AppBar>
       </Box>
       <Typography>hello {session.user.name}</Typography>
+      <Sidebar
+        topTracks={topTracks}
+        topArtists={topArtists}
+        session={session}
+      />
     </>
   );
 }
