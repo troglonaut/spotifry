@@ -57,6 +57,19 @@ export const getMyPlaylists = async (
   );
 };
 
+export const getMySavedTracks = async (
+  session: AuthSession,
+  limit = 20,
+  market?: string,
+  offset?: number
+) => {
+  const searchParams = new URLSearchParams();
+  if (limit) searchParams.set("limit", limit.toString());
+  if (offset) searchParams.set("offset", offset.toString());
+  if (market) searchParams.set("market", market);
+  return customFetch(`${SPOTIFY_URL_BASE}/v1/me/tracks`, session);
+};
+
 /**
  * @description get user's top ARTISTS or TRACKS
  */
