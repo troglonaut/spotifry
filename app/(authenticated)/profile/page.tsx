@@ -1,4 +1,4 @@
-import { getCurrentUserProfile } from "@/app/lib/actions";
+import { getMyProfile } from "@/app/lib/actions";
 import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
 import { redirect } from "next/navigation";
 import Image from "next/image";
@@ -9,7 +9,7 @@ export default async function ProfilePage() {
   if (!session) {
     redirect("/login");
   }
-  const profile = await getCurrentUserProfile(session);
+  const profile = await getMyProfile(session);
   const { profileImgSrc, profileImgHeight, profileImgWidth } = profileImg({
     profile,
   });

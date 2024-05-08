@@ -3,9 +3,8 @@ import { customFetch } from "@/app/utils/serverUtils";
 
 export const SPOTIFY_URL_BASE = "https://api.spotify.com";
 
-export const getCurrentUserProfile = async (
-  session: AuthSession
-): Promise<Profile> => customFetch(`${SPOTIFY_URL_BASE}/v1/me`, session);
+export const getMyProfile = async (session: AuthSession): Promise<Profile> =>
+  customFetch(`${SPOTIFY_URL_BASE}/v1/me`, session);
 
 export const getFollowedArtists = async ({
   session,
@@ -28,14 +27,29 @@ export const getFollowedArtists = async ({
   );
 };
 
-// export const getUsersPlaylists = async (session: AuthSession){
-//   return customFetch(`${SPOTIFY_URL_BASE}/v1/users/${session.user}`)
-// }
+export const getMyPlaylists = async ({
+  session,
+  limit = 20,
+  offset,
+}: {
+  session: AuthSession;
+  limit: number;
+  offset?: number;
+}) => {
+  const searchParams = new URLSearchParams();
+  if (limit) searchParams.set("limit", limit.toString());
+  if (offset) searchParams.set("offset", offset.toString());
+  return customFetch(
+    `${SPOTIFY_URL_BASE}/v1/me/playlists`,
+    session,
+    searchParams
+  );
+};
 
 /**
  * @description get user's top ARTISTS or TRACKS
  */
-export const getUsersTopItems = async ({
+export const getMyTopItems = async ({
   type,
   session,
   time_range,
