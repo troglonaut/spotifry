@@ -31,14 +31,24 @@ export default async function Home() {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" className="flex flex-row justify-between">
+        <AppBar
+          color="secondary"
+          position="static"
+          className="flex flex-row justify-between"
+        >
           <Box>
             <Typography variant="h6">hello {session.user.name}</Typography>
           </Box>
 
-          <Link href="/">Home</Link>
-          <Link href="/profile">Profile</Link>
-          <Link href="/users/99">99</Link>
+          <Link href="/">
+            <Button variant="text">Home</Button>
+          </Link>
+          <Link href="/profile">
+            <Button variant="contained">Profile</Button>
+          </Link>
+          <Link href="/users/99">
+            <Button variant="outlined">99</Button>
+          </Link>
 
           <IconButton>
             <Avatar src={profileImgSrc as string}></Avatar>
