@@ -35,17 +35,16 @@ export default async function Home() {
             <Typography variant="h6">hello {session.user.name}</Typography>
           </Box>
 
+          <Link href="/">Home</Link>
+          <Link href="/profile">Profile</Link>
+          <Link href="/users/99">99</Link>
+
           <IconButton>
             <Avatar src={profileImgSrc as string}></Avatar>
           </IconButton>
         </AppBar>
       </Box>
       <Typography>hello {session.user.name}</Typography>
-      <SideBar
-        topTracks={topTracks}
-        topArtists={topArtists}
-        session={session}
-      />
     </>
   );
 }

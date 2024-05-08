@@ -11,6 +11,7 @@ export default function RootLayout({
       <html lang="en">
         <body>
           <main>{children}</main>
+          <main className="mx-8 my-4">{children}</main>
         </body>
       </html>
     </NextAuthProvider>
