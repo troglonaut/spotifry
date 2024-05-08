@@ -19,7 +19,6 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, account }) {
       if (account) {
         token.id = account.id;
-        token.expires_at = account.expires_at;
         token.expires_at = Number(account.expires_at);
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
@@ -51,6 +50,7 @@ export const authOptions: NextAuthOptions = {
           return { ...token, error: "RefreshAccessTokenError" as const };
         }
       }
+
       return token;
     },
     async session({ session, token }) {
