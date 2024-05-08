@@ -27,15 +27,26 @@ export const getFollowedArtists = async ({
   );
 };
 
-export const getMyPlaylists = async ({
-  session,
-  limit = 20,
-  offset,
-}: {
-  session: AuthSession;
-  limit: number;
-  offset?: number;
-}) => {
+export const getFeaturedPlaylists = async (
+  session: AuthSession,
+  locale = "en_US",
+  limit?: number,
+  offset?: number
+) => {
+  const searchParams = new URLSearchParams({ locale });
+  if (limit) searchParams.set("limit", limit.toString());
+  if (offset) searchParams.set("offset", offset.toString());
+  return customFetch(
+    `${SPOTIFY_URL_BASE}/v1/browse/featured-playlists`,
+    session
+  );
+};
+
+export const getMyPlaylists = async (
+  session: AuthSession,
+  limit?: number,
+  offset?: number
+) => {
   const searchParams = new URLSearchParams();
   if (limit) searchParams.set("limit", limit.toString());
   if (offset) searchParams.set("offset", offset.toString());

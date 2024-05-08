@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
-import { getCurrentUserProfile, getUsersTopItems } from "@/app/lib/actions";
+import { getMyProfile, getMyTopItems } from "@/app/lib/actions";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
@@ -21,12 +21,12 @@ export default async function Home() {
     redirect("/login");
   }
 
-  const profile = await getCurrentUserProfile(session);
+  const profile = await getMyProfile(session);
   const { profileImgSrc } = profileImg({
     profile,
   });
-  const topTracks = await getUsersTopItems({ type: "tracks", session });
-  const topArtists = await getUsersTopItems({ type: "artists", session });
+  const topTracks = await getMyTopItems({ type: "tracks", session });
+  const topArtists = await getMyTopItems({ type: "artists", session });
 
   return (
     <>
