@@ -18,17 +18,23 @@ export const getAuthSession = async () => {
   return session;
 };
 
-export const customFetch = async (url: string, session: AuthSession | null) => {
+export const customFetch = async (
+  url: string,
+  session: AuthSession | null,
+  searchParams?: URLSearchParams
+) => {
   if (!session) {
     return null;
   }
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${session.user.accessToken}`,
-    },
-  }).then((res) => res.json());
 
-  return res;
+  return await fetch(
+    `${url}${searchParams ? "&" : ""}${searchParams?.toString() || ""}`,
+    {
+      headers: {
+        Authorization: `Bearer ${session.user.accessToken}`,
+      },
+    }
+  ).then((res) => res.json());
 };
 
 export const profileImg = ({

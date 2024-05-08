@@ -63,7 +63,7 @@ export interface AuthUser {
   image?: string | null;
   name: string;
   picture?: string | null;
-  sub: string;
+  sub: string /** SPOTIFY USER ID. stands for "subject id" */;
 }
 
 export interface AuthSession extends Omit<DefaultSession, "user"> {
