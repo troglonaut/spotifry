@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 import defaultPlaylistImage from "@/public/images/playlist.png";
 import Link from "next/link";
+import { ellipseStyles } from "@/app/utils/serverUtils";
 
 const delimiter = "--delimitizzle**";
 
@@ -24,13 +25,15 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
           if (imgUrl) dataArr.push(imgUrl);
           return dataArr.join(delimiter);
         },
+        grow: true,
         header: "Name",
-        size: 150,
+        maxSize: 130,
         Cell: ({ renderedCellValue }) => {
           const [name, src] = (renderedCellValue as string).split(delimiter);
           return (
             <Box
               sx={{
+                ...ellipseStyles,
                 display: "flex",
                 alignItems: "center",
                 gap: "1rem",
@@ -41,28 +44,19 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
                 alt="playlist image"
                 width="85"
                 height="85"
+                priority
               />
-              <Typography>{name}</Typography>
+              <Typography sx={ellipseStyles}>{name}</Typography>
             </Box>
           );
         },
-        id: "nombre",
-      },
-      {
-        accessorKey: "owner.display_name",
-        header: "Owner",
-        size: 150,
-        Cell: ({ renderedCellValue, row }) => (
-          <Link href={`/users/${row.original.owner.id}`}>
-            <Typography>{renderedCellValue}</Typography>
-          </Link>
-        ),
+        id: "name",
       },
 
       {
         accessorKey: "tracks.total",
         header: "# Tracks",
-        size: 20,
+        size: 28,
         Cell: ({ renderedCellValue }) => (
           <Typography>{renderedCellValue}</Typography>
         ),
@@ -70,9 +64,20 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
       {
         accessorKey: "description",
         header: "Description",
-        size: 200,
+        maxSize: 100,
+        grow: true,
         Cell: ({ renderedCellValue }) => (
-          <Typography>{renderedCellValue}</Typography>
+          <Typography sx={{ ...ellipseStyles }}>{renderedCellValue}</Typography>
+        ),
+      },
+      {
+        accessorKey: "owner.display_name",
+        header: "Owner",
+        size: 35,
+        Cell: ({ renderedCellValue, row }) => (
+          <Link href={`/users/${row.original.owner.id}`} sx={ellipseStyles}>
+            <Typography sx={ellipseStyles}>{renderedCellValue}</Typography>
+          </Link>
         ),
       },
     ],
@@ -81,7 +86,7 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
   const table = useMaterialReactTable({
     columns: memoizedColumns,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    layoutMode: "grid",
   });
-  // return <></>;
   return <MaterialReactTable table={table} />;
 }
