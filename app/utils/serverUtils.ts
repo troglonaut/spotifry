@@ -51,11 +51,13 @@ export const profileImg = ({
     defaultProfileImage;
 
   const [profileImgWidth, profileImgHeight] = [
-    (profile.images.length &&
-      profile.images[profile.images.length - 1]?.width) ||
+    width ||
+      (profile.images.length &&
+        profile.images[profile.images.length - 1]?.width) ||
       defaultProfileImage.width,
-    (profile.images.length &&
-      profile.images[profile.images.length - 1]?.height) ||
+    height ||
+      (profile.images.length &&
+        profile.images[profile.images.length - 1]?.height) ||
       defaultProfileImage.height,
   ];
 

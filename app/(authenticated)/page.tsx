@@ -49,7 +49,9 @@ export default async function Home() {
           <Link href="/users/99">
             <Button variant="outlined">99</Button>
           </Link>
-
+          <Link href="/playlists">
+            <Button variant="contained">Playlists</Button>
+          </Link>
           <IconButton>
             <Avatar src={profileImgSrc as string}></Avatar>
           </IconButton>
