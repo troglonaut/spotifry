@@ -8,7 +8,7 @@ import {
 } from "material-react-table";
 import { useMemo } from "react";
 import Image from "next/image";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import defaultPlaylistImage from "@/public/images/playlist.png";
 import Link from "next/link";
 import { ellipseStyles } from "@/app/utils/serverUtils";
@@ -75,7 +75,7 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
         header: "Owner",
         size: 35,
         Cell: ({ renderedCellValue, row }) => (
-          <Link href={`/users/${row.original.owner.id}`} sx={ellipseStyles}>
+          <Link href={`/users/${row.original.owner.id}`}>
             <Typography sx={ellipseStyles}>{renderedCellValue}</Typography>
           </Link>
         ),
@@ -86,7 +86,24 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
   const table = useMaterialReactTable({
     columns: memoizedColumns,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    enableRowSelection: true,
+    enableSelectAll: false,
     layoutMode: "grid",
+    renderTopToolbarCustomActions: ({ table }) => (
+      <Button
+        onClick={() => {
+          const selectedRows = table.getSelectedRowModel().rows;
+
+          console.info(
+            `%c🔬 selectedRows`,
+            "color: limegreen; font-size: 20px;",
+            selectedRows
+          );
+        }}
+      >
+        Log Rows
+      </Button>
+    ),
   });
   return <MaterialReactTable table={table} />;
 }
