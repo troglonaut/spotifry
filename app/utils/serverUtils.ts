@@ -28,7 +28,7 @@ export const customFetch = async (
   }
 
   return await fetch(
-    `${url}${searchParams ? "&" : ""}${searchParams?.toString() || ""}`,
+    `${url}${searchParams ? "?" : ""}${searchParams?.toString() || ""}`,
     {
       headers: {
         Authorization: `Bearer ${session.user.accessToken}`,

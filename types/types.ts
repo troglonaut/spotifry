@@ -155,6 +155,16 @@ export interface Followers {
   total: number;
 }
 
+export interface GetMyPlaylistsResponse {
+  href: string;
+  limit: number;
+  next: string;
+  offset: string;
+  previous: null;
+  total: number;
+  items: PlaylistOfMine[];
+}
+
 export interface ImageObject {
   url: string;
   height: number | null;
@@ -190,6 +200,20 @@ export interface Playlist {
   tracks: TrackObject[];
   type: "playlist";
   uri: string;
+}
+
+export interface PlaylistOfMine
+  extends Modify<
+    Playlist,
+    {
+      primary_color: string | null;
+      tracks: PlaylistOfMineTrackObj;
+    }
+  > {}
+
+export interface PlaylistOfMineTrackObj {
+  href: string;
+  total: number;
 }
 
 export interface PlaylistTrackObject {
@@ -463,3 +487,5 @@ export interface Tracks {
   previous: string | null;
   total: number;
 }
+
+type Modify<T, R> = Omit<T, keyof R> & R;

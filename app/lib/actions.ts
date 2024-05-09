@@ -1,4 +1,9 @@
-import { ArtistObject, AuthSession, Profile } from "@/types/types";
+import {
+  ArtistObject,
+  AuthSession,
+  GetMyPlaylistsResponse,
+  Profile,
+} from "@/types/types";
 import { customFetch } from "@/app/utils/serverUtils";
 
 export const SPOTIFY_URL_BASE = "https://api.spotify.com";
@@ -21,7 +26,7 @@ export const getFollowedArtists = async ({
   if (limit) searchParams.set("limit", limit.toString());
 
   return customFetch(
-    `https://api.spotify.com/v1/me/following?type=artist`,
+    `https://api.spotify.com/v1/me/following`,
     session,
     searchParams
   );
@@ -46,7 +51,7 @@ export const getMyPlaylists = async (
   session: AuthSession,
   limit?: number,
   offset?: number
-) => {
+): Promise<GetMyPlaylistsResponse> => {
   const searchParams = new URLSearchParams();
   if (limit) searchParams.set("limit", limit.toString());
   if (offset) searchParams.set("offset", offset.toString());
