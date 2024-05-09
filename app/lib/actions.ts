@@ -7,9 +7,10 @@ import {
 import { customFetch } from "@/app/utils/serverUtils";
 
 export const SPOTIFY_URL_BASE = "https://api.spotify.com";
+export const V1_BASE = `${SPOTIFY_URL_BASE}/v1`;
 
 export const getMyProfile = async (session: AuthSession): Promise<Profile> =>
-  customFetch(`${SPOTIFY_URL_BASE}/v1/me`, session);
+  customFetch(`${V1_BASE}/me`, session);
 
 export const getFollowedArtists = async ({
   session,
@@ -25,11 +26,7 @@ export const getFollowedArtists = async ({
   if (after) searchParams.set("after", after);
   if (limit) searchParams.set("limit", limit.toString());
 
-  return customFetch(
-    `https://api.spotify.com/v1/me/following`,
-    session,
-    searchParams
-  );
+  return customFetch(`${V1_BASE}/me/following`, session, searchParams);
 };
 
 export const getFeaturedPlaylists = async (
@@ -55,11 +52,7 @@ export const getMyPlaylists = async (
   const searchParams = new URLSearchParams();
   if (limit) searchParams.set("limit", limit.toString());
   if (offset) searchParams.set("offset", offset.toString());
-  return customFetch(
-    `${SPOTIFY_URL_BASE}/v1/me/playlists`,
-    session,
-    searchParams
-  );
+  return customFetch(`${V1_BASE}/me/playlists`, session, searchParams);
 };
 
 export const getMySavedAlbums = async (
@@ -93,7 +86,7 @@ export const getMySavedItems = async (
   if (limit) searchParams.set("limit", limit.toString());
   if (offset) searchParams.set("offset", offset.toString());
   if (market) searchParams.set("market", market);
-  return customFetch(`${SPOTIFY_URL_BASE}/v1/me/${type}`, session);
+  return customFetch(`${V1_BASE}/me/${type}`, session);
 };
 
 export const getMySavedShows = async (
@@ -124,7 +117,7 @@ export const getMyTopItems = async ({
   time_range?: string;
   limit?: number;
   offset?: number;
-}) => customFetch(`${SPOTIFY_URL_BASE}/v1/me/top/${type}`, session);
+}) => customFetch(`${V1_BASE}/me/top/${type}`, session);
 
 export const getUserById = async ({
   session,
@@ -132,8 +125,7 @@ export const getUserById = async ({
 }: {
   session: AuthSession;
   id: string;
-}): Promise<Profile> =>
-  customFetch(`${SPOTIFY_URL_BASE}/v1/users/${id}`, session);
+}): Promise<Profile> => customFetch(`${V1_BASE}/users/${id}`, session);
 
 // export async function refreshAccessToken(
 //   accessToken: string,
@@ -158,9 +150,5 @@ export const getNewReleases = async (
 ) => {
   const searchParams = new URLSearchParams({ limit: limit.toString() });
   if (offset) searchParams.set("offset", offset.toString());
-  return customFetch(
-    `${SPOTIFY_URL_BASE}/v1/browse/new-releases`,
-    session,
-    searchParams
-  );
+  return customFetch(`${V1_BASE}/browse/new-releases`, session, searchParams);
 };

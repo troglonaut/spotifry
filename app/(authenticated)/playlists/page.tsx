@@ -1,7 +1,7 @@
 // "use server";
 
-import { getMyPlaylists, getUserById } from "@/app/lib/actions";
-import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
+import { getMyPlaylists } from "@/app/lib/actions";
+import { getAuthSession } from "@/app/utils/serverUtils";
 import { Profile } from "@/types/types";
 import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
@@ -35,28 +35,24 @@ export default async function UsersPage() {
   ];
 
   return (
-    <>
-      <div style={{ height: 600, width: "100%" }}>
-        <DataGrid
-          sx={{
-            "& .MuiDataGrid-cell": {
-              color: "white",
-            },
-            "& .MuiTablePagination-root": {
-              color: "white",
-            },
-          }}
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[7, 10]}
-          checkboxSelection
-        />
-      </div>
-    </>
+    <DataGrid
+      sx={{
+        "& .MuiDataGrid-cell": {
+          color: "white",
+        },
+        "& .MuiTablePagination-root": {
+          color: "white",
+        },
+      }}
+      rows={rows}
+      columns={columns}
+      initialState={{
+        pagination: {
+          paginationModel: { page: 0, pageSize: 5 },
+        },
+      }}
+      pageSizeOptions={[7, 10]}
+      checkboxSelection
+    />
   );
 }
