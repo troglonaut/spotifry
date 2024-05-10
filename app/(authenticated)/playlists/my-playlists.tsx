@@ -11,14 +11,15 @@ import Image from "next/image";
 import { Box, Button, Typography } from "@mui/material";
 import defaultPlaylistImage from "@/public/images/playlist.png";
 import Link from "next/link";
-import { ellipseStyles } from "@/app/utils/serverUtils";
+import { sxOverflowEllipse } from "@/app/sxStyles";
 
 const delimiter = "--delimitizzle**";
 
 export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
-  const memoizedColumns = useMemo<MRT_ColumnDef<PlaylistOfMine>[]>(
+  const columns = useMemo<MRT_ColumnDef<PlaylistOfMine>[]>(
     () => [
       {
+        header: "Name",
         accessorFn: ({ name, images }) => {
           const imgUrl = images.length && images[0].url;
           const dataArr = [name];
@@ -26,14 +27,14 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
           return dataArr.join(delimiter);
         },
         grow: true,
-        header: "Name",
+        id: "name",
         maxSize: 130,
         Cell: ({ renderedCellValue }) => {
           const [name, src] = (renderedCellValue as string).split(delimiter);
           return (
             <Box
               sx={{
-                ...ellipseStyles,
+                ...sxOverflowEllipse,
                 display: "flex",
                 alignItems: "center",
                 gap: "1rem",
@@ -42,32 +43,31 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
               <Image
                 src={src || defaultPlaylistImage}
                 alt="playlist image"
-                width="85"
-                height="85"
+                width="30"
+                height="30"
                 priority
               />
-              <Typography sx={ellipseStyles}>{name}</Typography>
+              <Typography sx={sxOverflowEllipse}>{name}</Typography>
             </Box>
           );
         },
-        id: "name",
       },
 
       {
-        accessorKey: "tracks.total",
         header: "# Tracks",
+        accessorKey: "tracks.total",
         size: 28,
         Cell: ({ renderedCellValue }) => (
           <Typography>{renderedCellValue}</Typography>
         ),
       },
       {
-        accessorKey: "description",
         header: "Description",
+        accessorKey: "description",
         maxSize: 100,
         grow: true,
         Cell: ({ renderedCellValue }) => (
-          <Typography sx={{ ...ellipseStyles }}>{renderedCellValue}</Typography>
+          <Typography sx={sxOverflowEllipse}>{renderedCellValue}</Typography>
         ),
       },
       {
@@ -76,18 +76,22 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
         size: 35,
         Cell: ({ renderedCellValue, row }) => (
           <Link href={`/users/${row.original.owner.id}`}>
-            <Typography sx={ellipseStyles}>{renderedCellValue}</Typography>
+            <Typography sx={sxOverflowEllipse}>{renderedCellValue}</Typography>
           </Link>
         ),
       },
     ],
     []
   );
+
   const table = useMaterialReactTable({
-    columns: memoizedColumns,
+    columns: columns,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     enableRowSelection: true,
     enableSelectAll: false,
+    enableStickyHeader: true,
+    enableStickyFooter: true,
+
     layoutMode: "grid",
     renderTopToolbarCustomActions: ({ table }) => (
       <Button
@@ -105,5 +109,15 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
       </Button>
     ),
   });
-  return <MaterialReactTable table={table} />;
+  return (
+    <Box
+      sx={{
+        td: {
+          padding: "0.5rem",
+        },
+      }}
+    >
+      <MaterialReactTable table={table} />
+    </Box>
+  );
 }

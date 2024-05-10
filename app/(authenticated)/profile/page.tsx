@@ -4,6 +4,10 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
 
+export const metadata = {
+  title: "Profile",
+};
+
 export default async function ProfilePage() {
   const session = await getAuthSession();
   if (!session) {

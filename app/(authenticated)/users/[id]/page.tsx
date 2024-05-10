@@ -5,11 +5,11 @@ import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
 
-export default async function UsersPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export const metadata = {
+  title: "User",
+};
+
+export default async function UserPage({ params }: { params: { id: string } }) {
   const session = await getAuthSession();
   if (!session) {
     redirect("/login");

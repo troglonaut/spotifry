@@ -63,11 +63,3 @@ export const profileImg = ({
 
   return { profileImgSrc, profileImgHeight, profileImgWidth };
 };
-
-export const ellipseStyles = {
-  whiteSpace: "nowrap",
-  textOverflow: "ellipsis",
-  // width: "100px",
-  display: "block",
-  overflow: "hidden",
-};
