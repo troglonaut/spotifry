@@ -27,10 +27,11 @@ export const getFeaturedPlaylists = async (
   limit?: number,
   offset?: number
 ) => {
-  const searchParams = createSearchParams({ limit, offset });
+  const searchParams = createSearchParams({ limit, locale, offset });
   return customFetch(
     `${SPOTIFY_URL_BASE}/v1/browse/featured-playlists`,
-    session
+    session,
+    searchParams
   );
 };
 
@@ -96,15 +97,15 @@ export const getMyTopItems = async (
   time_range?: string,
   limit?: number,
   offset?: number
-) => customFetch(`${V1_BASE}/me/top/${type}`, session);
+) => {
+  const params = createSearchParams({ type, time_range, limit, offset });
+  return customFetch(`${V1_BASE}/me/top/${type}`, session, params);
+};
 
-export const getUserById = async ({
-  session,
-  id,
-}: {
-  session: AuthSession;
-  id: string;
-}): Promise<Profile> => customFetch(`${V1_BASE}/users/${id}`, session);
+export const getUserById = async (
+  session: AuthSession,
+  id: string
+): Promise<Profile> => customFetch(`${V1_BASE}/users/${id}`, session);
 
 // export async function refreshAccessToken(
 //   accessToken: string,

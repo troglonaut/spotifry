@@ -71,6 +71,7 @@ export const createSearchParams = ({
   locale = "",
   after = "",
   market = "",
+  time_range = "",
 }): URLSearchParams => {
   const searchParams = new URLSearchParams();
   if (limit) searchParams.set("limit", limit.toString());

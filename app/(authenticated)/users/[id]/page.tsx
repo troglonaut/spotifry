@@ -15,7 +15,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
     redirect("/login");
   }
 
-  const profile = (await getUserById({ session, id: params.id })) as Profile;
+  const profile = (await getUserById(session, params.id)) as Profile;
 
   if (!profile.id) {
     notFound();
