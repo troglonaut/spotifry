@@ -109,6 +109,16 @@ export const getUserById = async (
   id: string
 ): Promise<SpotifyUser> => customFetch(`${V1_BASE}/users/${id}`, session);
 
+export const getUserPlaylists = async (
+  session: AuthSession,
+  userId: string,
+  limit?: number,
+  offset?: number
+) => {
+  const params = createSearchParams({ limit, offset });
+  return customFetch(`${V1_BASE}/users/${userId}/playlists`, session, params);
+};
+
 // export async function refreshAccessToken(
 //   accessToken: string,
 //   refreshToken: string
