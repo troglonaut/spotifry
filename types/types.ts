@@ -225,7 +225,7 @@ export interface PlaylistTrackObject {
   uri: string;
 }
 
-export interface Profile {
+export interface SpotifyUser {
   country: string;
   display_name: string;
   email: string;
@@ -255,7 +255,9 @@ export interface ResumePoint {
 
 export interface SearchRequest {
   q: string;
-  type: string[];
+  type: [
+    "album" | "artist" | "playlist" | "track" | "show" | "episode" | "audiobook"
+  ];
   market?: string;
   limit?: number;
   offset?: number;
@@ -368,7 +370,7 @@ export interface SimplifiedAudiobookObject {
   name: string;
   narrators: NarratorObject[];
   publisher: string;
-  type: string;
+  type: "audiobook";
   uri: string;
   total_chapters: number;
 }
@@ -415,10 +417,10 @@ export interface SimplifiedShowObject {
   available_markets: string[];
   copyrights: CopyrightObject;
   description: string;
-  html_description: string;
   explicit: boolean;
   external_urls: ExternalUrls;
   href: string;
+  html_description: string;
   id: string;
   images: ImageObject[];
   is_externally_hosted: boolean;
@@ -426,9 +428,9 @@ export interface SimplifiedShowObject {
   media_type: string;
   name: string;
   publisher: string;
+  total_episodes: number;
   type: "show";
   uri: string;
-  total_episodes: number;
 }
 
 export interface SimpleTracks {
@@ -474,7 +476,7 @@ export interface TrackObject {
   preview_url: string | null;
   restrictions: Restrictions;
   track_number: number;
-  type: string;
+  type: "album";
   uri: string;
 }
 
@@ -486,6 +488,12 @@ export interface Tracks {
   offset: number;
   previous: string | null;
   total: number;
+}
+
+export enum TimeRange {
+  long = "long_term",
+  medium = "medium_term",
+  short = "short_term",
 }
 
 type Modify<T, R> = Omit<T, keyof R> & R;

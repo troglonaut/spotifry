@@ -1,4 +1,4 @@
-import { AuthSession, Profile } from "@/types/types";
+import { AuthSession, SpotifyUser, TimeRange } from "@/types/types";
 import { getServerSession } from "next-auth/next";
 import defaultProfileImage from "@/public/images/profile.png";
 import { StaticImageData } from "next/image";
@@ -42,7 +42,7 @@ export const profileImg = ({
   width,
   height,
 }: {
-  profile: Profile;
+  profile: SpotifyUser;
   width?: number;
   height?: number;
 }) => {
@@ -65,18 +65,29 @@ export const profileImg = ({
 };
 
 export const createSearchParams = ({
-  limit = 0,
-  offset = 0,
-  type = "",
-  locale = "",
-  after = "",
-  market = "",
-  time_range = "",
+  after,
+  locale,
+  market,
+  time_range,
+  type,
+  limit,
+  offset,
+}: {
+  after?: string;
+  locale?: string;
+  market?: string;
+  time_range?: TimeRange;
+  type?: string;
+  limit?: number;
+  offset?: number;
 }): URLSearchParams => {
   const searchParams = new URLSearchParams();
   if (limit) searchParams.set("limit", limit.toString());
+  if (after) searchParams.set("after", after);
+  if (market) searchParams.set("market", market);
+  if (time_range) searchParams.set("time_range", time_range);
+  if (locale) searchParams.set("locale", locale);
   if (offset) searchParams.set("offset", offset.toString());
   if (type) searchParams.set("type", type);
-  if (locale) searchParams.set("locale", locale);
   return searchParams;
 };

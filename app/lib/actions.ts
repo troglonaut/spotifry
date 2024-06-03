@@ -2,15 +2,17 @@ import {
   ArtistObject,
   AuthSession,
   GetMyPlaylistsResponse,
-  Profile,
+  SpotifyUser,
+  TimeRange,
 } from "@/types/types";
 import { createSearchParams, customFetch } from "@/app/utils/serverUtils";
 
 export const SPOTIFY_URL_BASE = "https://api.spotify.com";
 export const V1_BASE = `${SPOTIFY_URL_BASE}/v1`;
 
-export const getMyProfile = async (session: AuthSession): Promise<Profile> =>
-  customFetch(`${V1_BASE}/me`, session);
+export const getMyProfile = async (
+  session: AuthSession
+): Promise<SpotifyUser> => customFetch(`${V1_BASE}/me`, session);
 
 export const getFollowedArtists = async (
   session: AuthSession,
@@ -94,7 +96,7 @@ export const getMySavedTracks = async (
 export const getMyTopItems = async (
   type: "artists" | "tracks",
   session: AuthSession,
-  time_range?: string,
+  time_range?: TimeRange,
   limit?: number,
   offset?: number
 ) => {
@@ -105,7 +107,7 @@ export const getMyTopItems = async (
 export const getUserById = async (
   session: AuthSession,
   id: string
-): Promise<Profile> => customFetch(`${V1_BASE}/users/${id}`, session);
+): Promise<SpotifyUser> => customFetch(`${V1_BASE}/users/${id}`, session);
 
 // export async function refreshAccessToken(
 //   accessToken: string,

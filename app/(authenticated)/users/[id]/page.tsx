@@ -1,6 +1,6 @@
 import { getUserById } from "@/app/lib/actions";
 import { getAuthSession, profileImg } from "@/app/utils/serverUtils";
-import { Profile } from "@/types/types";
+import { SpotifyUser } from "@/types/types";
 import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
@@ -15,7 +15,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
     redirect("/login");
   }
 
-  const profile = (await getUserById(session, params.id)) as Profile;
+  const profile = (await getUserById(session, params.id)) as SpotifyUser;
 
   if (!profile.id) {
     notFound();
