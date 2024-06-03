@@ -4,7 +4,7 @@ import {
   GetMyPlaylistsResponse,
   Profile,
 } from "@/types/types";
-import { customFetch } from "@/app/utils/serverUtils";
+import { createSearchParams, customFetch } from "@/app/utils/serverUtils";
 
 export const SPOTIFY_URL_BASE = "https://api.spotify.com";
 export const V1_BASE = `${SPOTIFY_URL_BASE}/v1`;
@@ -12,20 +12,12 @@ export const V1_BASE = `${SPOTIFY_URL_BASE}/v1`;
 export const getMyProfile = async (session: AuthSession): Promise<Profile> =>
   customFetch(`${V1_BASE}/me`, session);
 
-export const getFollowedArtists = async ({
-  session,
-  after,
-  limit,
-}: {
-  session: AuthSession;
-  after?: string;
-  limit?: number;
-}): Promise<ArtistObject[]> => {
-  const searchParams = new URLSearchParams({ type: "artist" });
-
-  if (after) searchParams.set("after", after);
-  if (limit) searchParams.set("limit", limit.toString());
-
+export const getFollowedArtists = async (
+  session: AuthSession,
+  after?: string,
+  limit?: number
+): Promise<ArtistObject[]> => {
+  const searchParams = createSearchParams({ after, limit });
   return customFetch(`${V1_BASE}/me/following`, session, searchParams);
 };
 
@@ -35,9 +27,7 @@ export const getFeaturedPlaylists = async (
   limit?: number,
   offset?: number
 ) => {
-  const searchParams = new URLSearchParams({ locale });
-  if (limit) searchParams.set("limit", limit.toString());
-  if (offset) searchParams.set("offset", offset.toString());
+  const searchParams = createSearchParams({ limit, offset });
   return customFetch(
     `${SPOTIFY_URL_BASE}/v1/browse/featured-playlists`,
     session
@@ -49,9 +39,7 @@ export const getMyPlaylists = async (
   limit?: number,
   offset?: number
 ): Promise<GetMyPlaylistsResponse> => {
-  const searchParams = new URLSearchParams();
-  if (limit) searchParams.set("limit", limit.toString());
-  if (offset) searchParams.set("offset", offset.toString());
+  const searchParams = createSearchParams({ limit, offset });
   return customFetch(`${V1_BASE}/me/playlists`, session, searchParams);
 };
 
@@ -82,10 +70,7 @@ export const getMySavedItems = async (
   offset?: number,
   market?: string
 ) => {
-  const searchParams = new URLSearchParams();
-  if (limit) searchParams.set("limit", limit.toString());
-  if (offset) searchParams.set("offset", offset.toString());
-  if (market) searchParams.set("market", market);
+  const searchParams = createSearchParams({ limit, offset, market });
   return customFetch(`${V1_BASE}/me/${type}`, session);
 };
 
@@ -105,19 +90,13 @@ export const getMySavedTracks = async (
 /**
  * @description get user's top ARTISTS or TRACKS
  */
-export const getMyTopItems = async ({
-  type,
-  session,
-  time_range,
-  limit,
-  offset,
-}: {
-  type: "artists" | "tracks";
-  session: AuthSession;
-  time_range?: string;
-  limit?: number;
-  offset?: number;
-}) => customFetch(`${V1_BASE}/me/top/${type}`, session);
+export const getMyTopItems = async (
+  type: "artists" | "tracks",
+  session: AuthSession,
+  time_range?: string,
+  limit?: number,
+  offset?: number
+) => customFetch(`${V1_BASE}/me/top/${type}`, session);
 
 export const getUserById = async ({
   session,
@@ -148,7 +127,6 @@ export const getNewReleases = async (
   limit = 20,
   offset?: number
 ) => {
-  const searchParams = new URLSearchParams({ limit: limit.toString() });
-  if (offset) searchParams.set("offset", offset.toString());
+  const searchParams = createSearchParams({ limit, offset });
   return customFetch(`${V1_BASE}/browse/new-releases`, session, searchParams);
 };

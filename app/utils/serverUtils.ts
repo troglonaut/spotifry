@@ -63,3 +63,19 @@ export const profileImg = ({
 
   return { profileImgSrc, profileImgHeight, profileImgWidth };
 };
+
+export const createSearchParams = ({
+  limit = 0,
+  offset = 0,
+  type = "",
+  locale = "",
+  after = "",
+  market = "",
+}): URLSearchParams => {
+  const searchParams = new URLSearchParams();
+  if (limit) searchParams.set("limit", limit.toString());
+  if (offset) searchParams.set("offset", offset.toString());
+  if (type) searchParams.set("type", type);
+  if (locale) searchParams.set("locale", locale);
+  return searchParams;
+};
