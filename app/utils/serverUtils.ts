@@ -1,4 +1,4 @@
-import { AuthSession, SpotifyUser, TimeRange } from "@/types/types";
+import { AuthSession, SearchType, SpotifyUser, TimeRange } from "@/types/types";
 import { getServerSession } from "next-auth/next";
 import defaultProfileImage from "@/public/images/profile.png";
 import { StaticImageData } from "next/image";
@@ -97,3 +97,12 @@ export const createSearchParams = ({
   if (q) searchParams.set("q", q);
   return searchParams;
 };
+
+export const allSearchTypes = [
+  SearchType.album,
+  SearchType.artist,
+  SearchType.audiobook,
+  SearchType.episode,
+  SearchType.playlist,
+  SearchType.show,
+];

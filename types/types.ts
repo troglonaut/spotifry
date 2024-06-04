@@ -1,3 +1,4 @@
+import { Session } from "inspector";
 import { DefaultSession } from "next-auth";
 
 export interface Album {
@@ -256,7 +257,7 @@ export interface ResumePoint {
 export interface SearchRequestParams {
   q: string;
   session: AuthSession;
-  typeArr: [SearchType];
+  typeArr: SearchType[];
   market?: string;
   limit?: number;
   offset?: number;

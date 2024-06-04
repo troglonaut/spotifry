@@ -1,13 +1,12 @@
 "use client";
 
-import { AuthUser } from "@/types/types";
+import { AuthSession, AuthUser } from "@/types/types";
 import {
   AppBar,
   Avatar,
   Button,
   IconButton,
   Link,
-  Toolbar,
   Typography,
 } from "@mui/material";
 import { redirect } from "next/navigation";
@@ -15,6 +14,7 @@ import { useSession } from "next-auth/react";
 import MenuIcon from "@mui/icons-material/Menu";
 import defaultProfileImage from "@/public/images/profile.png";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { AppSearchBar } from "./app-search-bar";
 
 export default function TheAppBar() {
   const [profileImageSrc, setProfileImageSrc] = useState(
@@ -45,18 +45,8 @@ export default function TheAppBar() {
         justifyContent: "space-between",
       }}
     >
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Button color="inherit">Logout</Button>
-      </Toolbar>
+      <AppSearchBar session={session.data as AuthSession} />
+
       <Typography variant="h6" component="div">
         hello {(data?.user as AuthUser)?.name}
       </Typography>
