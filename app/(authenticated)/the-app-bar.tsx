@@ -14,14 +14,26 @@ import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import MenuIcon from "@mui/icons-material/Menu";
 import defaultProfileImage from "@/public/images/profile.png";
+import { useEffect, useState } from "react";
 
 export default function TheAppBar() {
+  const [profileImageSrc, setProfileImageSrc] = useState(
+    defaultProfileImage.src
+  );
   const session = useSession();
   if (!session) {
     redirect("/login");
   }
 
   const { data } = session;
+
+  useEffect(() => {
+    const src =
+      ((session.data?.user as AuthUser)?.picture as string) ||
+      defaultProfileImage.src;
+
+    setProfileImageSrc(src);
+  }, [session.data?.user]);
 
   return (
     <AppBar
@@ -62,12 +74,7 @@ export default function TheAppBar() {
         <Button variant="contained">Playlists</Button>
       </Link>
       <IconButton>
-        <Avatar
-          src={
-            ((data?.user as AuthUser)?.picture as string) ||
-            defaultProfileImage.src
-          }
-        />
+        <Avatar src={profileImageSrc} />
       </IconButton>
     </AppBar>
   );
