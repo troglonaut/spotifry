@@ -2,6 +2,8 @@ import {
   ArtistObject,
   AuthSession,
   GetMyPlaylistsResponse,
+  SearchRequestParams,
+  SearchResponse,
   SpotifyUser,
   TimeRange,
 } from "@/types/types";
@@ -142,4 +144,27 @@ export const getNewReleases = async (
 ) => {
   const searchParams = createSearchParams({ limit, offset });
   return customFetch(`${V1_BASE}/browse/new-releases`, session, searchParams);
+};
+
+export const searchSpotify = async ({
+  session,
+  q,
+  include_external,
+  limit,
+  market,
+  offset,
+  typeArr,
+}: SearchRequestParams): Promise<SearchResponse> => {
+  const searchParams = createSearchParams({
+    q,
+    include_external,
+    limit,
+    market,
+    offset,
+  });
+
+  if (typeArr.length) {
+    searchParams.set("type", typeArr.join(","));
+  }
+  return customFetch(`${V1_BASE}/search`, session, searchParams);
 };

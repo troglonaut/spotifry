@@ -253,15 +253,14 @@ export interface ResumePoint {
   resume_position_ms?: number;
 }
 
-export interface SearchRequest {
+export interface SearchRequestParams {
   q: string;
-  type: [
-    "album" | "artist" | "playlist" | "track" | "show" | "episode" | "audiobook"
-  ];
+  session: AuthSession;
+  typeArr: [SearchType];
   market?: string;
   limit?: number;
   offset?: number;
-  included_external?: "audio";
+  include_external?: "audio";
 }
 
 export interface SearchResponse {
@@ -272,6 +271,16 @@ export interface SearchResponse {
   shows: SearchShowsObj;
   episodes: SearchEpisodesObj;
   audiobooks: SearchAudiobooksObj;
+}
+
+export enum SearchType {
+  album = "album",
+  artist = "artist",
+  playlist = "playlist",
+  track = "track",
+  show = "show",
+  episode = "episode",
+  audiobook = "audiobook",
 }
 
 export interface SearchAlbumsObj {

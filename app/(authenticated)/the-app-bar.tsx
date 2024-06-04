@@ -14,7 +14,7 @@ import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import MenuIcon from "@mui/icons-material/Menu";
 import defaultProfileImage from "@/public/images/profile.png";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export default function TheAppBar() {
   const [profileImageSrc, setProfileImageSrc] = useState(
@@ -27,7 +27,7 @@ export default function TheAppBar() {
 
   const { data } = session;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const src =
       ((session.data?.user as AuthUser)?.picture as string) ||
       defaultProfileImage.src;

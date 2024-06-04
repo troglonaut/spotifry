@@ -66,28 +66,34 @@ export const profileImg = ({
 
 export const createSearchParams = ({
   after,
+  include_external,
+  limit,
   locale,
   market,
+  offset,
+  q,
   time_range,
   type,
-  limit,
-  offset,
 }: {
   after?: string;
+  include_external?: "audio";
+  limit?: number;
   locale?: string;
   market?: string;
+  offset?: number;
+  q?: string;
   time_range?: TimeRange;
   type?: string;
-  limit?: number;
-  offset?: number;
 }): URLSearchParams => {
   const searchParams = new URLSearchParams();
   if (limit) searchParams.set("limit", limit.toString());
   if (after) searchParams.set("after", after);
+  if (include_external) searchParams.set("include_external", include_external);
   if (market) searchParams.set("market", market);
   if (time_range) searchParams.set("time_range", time_range);
   if (locale) searchParams.set("locale", locale);
   if (offset) searchParams.set("offset", offset.toString());
   if (type) searchParams.set("type", type);
+  if (q) searchParams.set("q", q);
   return searchParams;
 };
