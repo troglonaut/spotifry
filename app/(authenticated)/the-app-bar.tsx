@@ -43,10 +43,9 @@ export default function TheAppBar() {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
+        marginBottom: 1,
       }}
     >
-      <AppSearchBar session={session.data as AuthSession} />
-
       <Typography variant="h6" component="div">
         hello {(data?.user as AuthUser)?.name}
       </Typography>

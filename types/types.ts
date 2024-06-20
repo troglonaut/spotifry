@@ -277,11 +277,11 @@ export interface SearchResponse {
 export enum SearchType {
   album = "album",
   artist = "artist",
-  playlist = "playlist",
-  track = "track",
-  show = "show",
-  episode = "episode",
   audiobook = "audiobook",
+  episode = "episode",
+  playlist = "playlist",
+  show = "show",
+  track = "track",
 }
 
 export interface SearchAlbumsObj {
