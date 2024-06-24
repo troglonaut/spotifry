@@ -26,20 +26,23 @@ export const authOptions: NextAuthOptions = {
         token.expires_in = Number(account.expires_in);
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
-      } else if (
-        Date.now() <
-        (Number(token.iat) + Number(token.expires_in)) * 1000
-      ) {
+      } else if (Date.now() < (token.expires_at as number) * 1000) {
         // If the access token has not expired yet, return it
         return token;
       } else {
         if (!token.refreshToken) throw new Error("Missing refresh token");
 
         try {
+          // TODO: (EricScottRichards) - why doese uising basic basic ruin the app?
+          // const basic = Buffer.from(
+          //   `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+          // ).toString("base64");
+
           const res = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization: `Basic ${basic}`,
             },
             body: new URLSearchParams({
               client_id: process.env.SPOTIFY_CLIENT_ID as string,
