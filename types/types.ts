@@ -1,5 +1,4 @@
-import { Session } from "inspector";
-import { DefaultSession } from "next-auth";
+import { Session } from "next-auth";
 
 export interface Album {
   album_type: "album" | "single" | "compilation";
@@ -67,7 +66,7 @@ export interface AuthUser {
   sub: string /** SPOTIFY USER ID. stands for "subject id" */;
 }
 
-export interface AuthSession extends Omit<DefaultSession, "user"> {
+export interface AuthSession extends Omit<Session, "user"> {
   user: AuthUser;
 }
 

@@ -16,13 +16,20 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
+    // The arguments user, account, profile and isNewUser are only passed the first time this
+    // callback is called on a new session, after the user signs in. In subsequent calls,
+    // only token will be available.
     async jwt({ token, account }) {
       if (account) {
         token.id = account.id;
         token.expires_at = Number(account.expires_at);
+        token.expires_in = Number(account.expires_in);
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
-      } else if (Date.now() < Number(token.expires_at) * 1000) {
+      } else if (
+        Date.now() <
+        (Number(token.iat) + Number(token.expires_in)) * 1000
+      ) {
         // If the access token has not expired yet, return it
         return token;
       } else {
@@ -31,7 +38,9 @@ export const authOptions: NextAuthOptions = {
         try {
           const res = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
             body: new URLSearchParams({
               client_id: process.env.SPOTIFY_CLIENT_ID as string,
               grant_type: "refresh_token",
@@ -41,7 +50,7 @@ export const authOptions: NextAuthOptions = {
 
           const tokens = await res.json();
 
-          if (!res.ok) throw tokens;
+          if (res?.status !== 200) throw tokens;
 
           return tokens;
         } catch (error) {
