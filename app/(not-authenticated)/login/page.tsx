@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 
 export default function Login() {
@@ -7,5 +8,5 @@ export default function Login() {
     signIn("spotify", { callbackUrl: "http://localhost:3000" });
   };
 
-  return <button onClick={handleLogin}>Login</button>;
+  return <Button onClick={handleLogin}>Login</Button>;
 }
