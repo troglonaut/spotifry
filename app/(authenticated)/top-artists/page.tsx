@@ -5,10 +5,10 @@ import { Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Profile",
+  title: "My Top Artists",
 };
 
-export default async function ProfilePage() {
+export default async function TopArtistsPage() {
   const session = await getAuthSession();
   if (!session) {
     redirect("/login");
