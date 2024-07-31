@@ -26,6 +26,12 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+ol,
+ul {
+  list-style: decimal;
+  padding: revert;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
