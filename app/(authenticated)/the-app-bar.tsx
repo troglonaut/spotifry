@@ -65,6 +65,9 @@ export default function TheAppBar() {
       <Link href="/top-artists">
         <Button variant="contained">Top Artists</Button>
       </Link>
+      <Link href="/top-tracks">
+        <Button variant="contained">Top Tracks</Button>
+      </Link>
       <IconButton>
         <Avatar src={profileImageSrc} />
       </IconButton>
