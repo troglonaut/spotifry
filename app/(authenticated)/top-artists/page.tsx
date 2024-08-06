@@ -1,8 +1,9 @@
 import { getMyTopItems } from "@/app/lib/actions";
 import { getAuthSession } from "@/app/utils/serverUtils";
-import { ArtistObject, TimeRange } from "@/types/types";
+import { ArtistObject, ObjWithStringKeys, TimeRange } from "@/types/types";
 import { Typography } from "@mui/material";
 import { redirect } from "next/navigation";
+import { PieChart } from "@mui/x-charts/PieChart";
 
 export const metadata = {
   title: "My Top Artists",
@@ -14,14 +15,43 @@ export default async function TopArtistsPage() {
     redirect("/login");
   }
 
-  function artistList(artistList: ArtistObject[]) {
+  function artistList(artists: ArtistObject[]) {
     return (
       <ol>
-        {artistList.map((artist: ArtistObject) => (
+        {artists.map((artist: ArtistObject) => (
           <li key={artist.id}>{artist.name}</li>
         ))}
       </ol>
     );
+  }
+
+  function GroupArtistsByTopGenre(artists: ArtistObject[]) {
+    "use client";
+    const genreCounts: ObjWithStringKeys = {};
+    const seriesData = [];
+    const simplifiedArtists = artists.map((artist) => ({
+      id: artist.id,
+      name: artist.name,
+      genre: artist.genres[0],
+    }));
+
+    simplifiedArtists.forEach((artist) => {
+      const { genre } = artist;
+      if (genreCounts[genre]) {
+        genreCounts[genre]++;
+      } else {
+        genreCounts[genre] = 1;
+      }
+    });
+
+    for (const key in genreCounts) {
+      seriesData.push({ id: key, value: Number(genreCounts[key]), label: key });
+    }
+
+    const series = { data: seriesData };
+
+    // return <PieChart series={[{data: seriesData}]} />;
+    return seriesData;
   }
 
   const myTopArtistsLong = await getMyTopItems(
@@ -32,6 +62,7 @@ export default async function TopArtistsPage() {
   );
 
   const artistListLong = artistList(myTopArtistsLong.items);
+  const longSeries = groupArtistsByTopGenre(myTopArtistsLong.items);
 
   const myTopArtistsMed = await getMyTopItems(
     "artists",
@@ -55,7 +86,8 @@ export default async function TopArtistsPage() {
     <>
       <Typography variant="h1">My Top Artists</Typography>
       <Typography variant="h2">Long-term</Typography>
-      {artistListLong}
+      <PieChart series={[{ data: longSeries }]} />
+      {/* <GroupArtistsByTopGenre /> */}
 
       <Typography variant="h2">Medium-term</Typography>
       {artistListMed}
