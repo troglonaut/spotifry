@@ -1,6 +1,6 @@
 import { getMyTopItems } from "@/app/lib/actions";
 import { getAuthSession } from "@/app/utils/serverUtils";
-import { ArtistObject, TimeRange, TrackObject } from "@/types/types";
+import { ObjWithStringKeys, TimeRange, TrackObject } from "@/types/types";
 import { Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 
@@ -12,6 +12,19 @@ export default async function TopTracksPage() {
   const session = await getAuthSession();
   if (!session) {
     redirect("/login");
+  }
+
+  function tracksByDecade(tracks: TrackObject[]) {
+    const trackCountByDecade: ObjWithStringKeys = {};
+    tracks.forEach((track) => {
+      const decade = `${track.album.release_date.substring(0, 3)}0`;
+      if (!trackCountByDecade[decade]) {
+        trackCountByDecade[decade] = 1;
+      } else {
+        trackCountByDecade[decade]++;
+      }
+      return trackCountByDecade;
+    });
   }
 
   function trackList(tracks: TrackObject[]) {
@@ -50,6 +63,8 @@ export default async function TopTracksPage() {
   );
 
   const trackListShort = trackList(myTopTracksShort.items);
+
+  tracksByDecade(myTopTracksLong.items);
 
   return (
     <>

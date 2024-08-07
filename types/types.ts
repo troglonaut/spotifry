@@ -505,5 +505,14 @@ export enum TimeRange {
   medium = "medium_term",
   short = "short_term",
 }
+export interface ObjWithStringKeys {
+  [key: string]: any;
+}
+
+export interface seriesDatum {
+  id: string;
+  value: number;
+  label: string;
+}
 
 type Modify<T, R> = Omit<T, keyof R> & R;
