@@ -3,6 +3,7 @@ import { getAuthSession } from "@/app/utils/serverUtils";
 import { ObjWithStringKeys, TimeRange, TrackObject } from "@/types/types";
 import { Typography } from "@mui/material";
 import { redirect } from "next/navigation";
+import { BarChart } from "@/app/lib/mui";
 
 export const metadata = {
   title: "My Top Tracks",
@@ -23,8 +24,21 @@ export default async function TopTracksPage() {
       } else {
         trackCountByDecade[decade]++;
       }
-      return trackCountByDecade;
     });
+    return trackCountByDecade;
+  }
+
+  function tracksByYear(tracks: TrackObject[]) {
+    const trackCountByYear: ObjWithStringKeys = {};
+    tracks.forEach((track) => {
+      const year = `${track.album.release_date.substring(0, 4)}`;
+      if (!trackCountByYear[year]) {
+        trackCountByYear[year] = 1;
+      } else {
+        trackCountByYear[year]++;
+      }
+    });
+    return trackCountByYear;
   }
 
   function trackList(tracks: TrackObject[]) {
@@ -37,46 +51,118 @@ export default async function TopTracksPage() {
     );
   }
 
-  const myTopTracksLong = await getMyTopItems(
-    "tracks",
-    session,
-    TimeRange.long,
-    40
-  );
+  const topTracks = {
+    long: await getMyTopItems("tracks", session, TimeRange.long, 20),
+    medium: await getMyTopItems("tracks", session, TimeRange.medium, 20),
+    short: await getMyTopItems("tracks", session, TimeRange.short, 20),
+  };
 
-  const trackListLong = trackList(myTopTracksLong.items);
+  const trackListLong = trackList(topTracks.long.items);
+  const trackListMed = trackList(topTracks.medium.items);
+  const trackListShort = trackList(topTracks.short.items);
 
-  const myTopTracksMed = await getMyTopItems(
-    "tracks",
-    session,
-    TimeRange.medium,
-    40
-  );
+  const trackCountsByYear = {
+    long: tracksByYear(topTracks.long.items),
+    med: tracksByYear(topTracks.medium.items),
+    short: tracksByYear(topTracks.short.items),
+  };
 
-  const trackListMed = trackList(myTopTracksMed.items);
-
-  const myTopTracksShort = await getMyTopItems(
-    "tracks",
-    session,
-    TimeRange.short,
-    40
-  );
-
-  const trackListShort = trackList(myTopTracksShort.items);
-
-  tracksByDecade(myTopTracksLong.items);
+  const trackCountsByDecade = {
+    long: tracksByDecade(topTracks.long.items),
+    med: tracksByDecade(topTracks.medium.items),
+    short: tracksByDecade(topTracks.short.items),
+  };
 
   return (
     <>
       <Typography variant="h1">My Top Tracks</Typography>
       <Typography variant="h2">Long-term</Typography>
-      {trackListLong}
+      <div className="flex">
+        {trackListLong}
+        <div>
+          <Typography variant="h3">Tracks by Year</Typography>
+          <BarChart
+            xAxis={[
+              {
+                data: Object.keys(trackCountsByYear.long),
+                scaleType: "band",
+              },
+            ]}
+            series={[{ data: Object.values(trackCountsByYear.long) }]}
+            height={200}
+          />
+
+          <Typography variant="h3">Tracks by Decade</Typography>
+          <BarChart
+            xAxis={[
+              {
+                data: Object.keys(trackCountsByDecade.long),
+                scaleType: "band",
+              },
+            ]}
+            series={[{ data: Object.values(trackCountsByDecade.long) }]}
+            height={200}
+          />
+        </div>
+      </div>
 
       <Typography variant="h2">Medium-term</Typography>
-      {trackListMed}
+      <div className="flex">
+        {trackListMed}
+        <div>
+          <Typography variant="h3">Tracks by Year</Typography>
+          <BarChart
+            xAxis={[
+              {
+                data: Object.keys(trackCountsByYear.med),
+                scaleType: "band",
+              },
+            ]}
+            series={[{ data: Object.values(trackCountsByYear.med) }]}
+            height={200}
+          />
+          <Typography variant="h3">Tracks by Decade</Typography>
+          <BarChart
+            xAxis={[
+              {
+                data: Object.keys(trackCountsByDecade.med),
+                scaleType: "band",
+              },
+            ]}
+            series={[{ data: Object.values(trackCountsByDecade.med) }]}
+            height={200}
+          />
+        </div>
+      </div>
 
       <Typography variant="h2">Short-term</Typography>
-      {trackListLong}
+      <div className="flex">
+        {trackListShort}
+        <div>
+          <Typography variant="h3">Tracks by Year</Typography>
+          <BarChart
+            xAxis={[
+              {
+                data: Object.keys(trackCountsByYear.short),
+                scaleType: "band",
+              },
+            ]}
+            series={[{ data: Object.values(trackCountsByYear.short) }]}
+            height={200}
+          />
+          <Typography variant="h3">Tracks by Decade</Typography>
+          <BarChart
+            xAxis={[
+              {
+                data: Object.keys(trackCountsByDecade.short),
+                scaleType: "band",
+              },
+            ]}
+            series={[{ data: Object.values(trackCountsByDecade.short) }]}
+            height={200}
+          />
+        </div>
+      </div>
     </>
   );
 }
