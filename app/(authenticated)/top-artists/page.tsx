@@ -2,6 +2,7 @@ import { getMyTopItems } from "@/app/lib/actions";
 import { getAuthSession } from "@/app/utils/serverUtils";
 import { ArtistObject, TimeRange } from "@/types/types";
 import { Typography } from "@mui/material";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata = {
@@ -18,7 +19,9 @@ export default async function TopArtistsPage() {
     return (
       <ol>
         {artistList.map((artist: ArtistObject) => (
-          <li key={artist.id}>{artist.name}</li>
+          <li key={artist.id}>
+            <Link href={`/artist/${artist.id}`}>{artist.name}</Link>
+          </li>
         ))}
       </ol>
     );
