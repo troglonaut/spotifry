@@ -1,6 +1,6 @@
 import { getArtist } from "@/app/lib/actions";
 import { getAuthSession } from "@/app/utils/serverUtils";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export default async function ArtistPage({
   params,
@@ -13,14 +13,9 @@ export default async function ArtistPage({
   }
 
   const artist = await getArtist(session, params.id);
+  if (!artist.id) {
+    notFound();
+  }
 
-  // if (!profile.id) {
-  //   notFound();
-  // }
-
-  return (
-    <>
-      <div>{artist?.name}</div>
-    </>
-  );
+  return <div>{artist?.name}</div>;
 }
