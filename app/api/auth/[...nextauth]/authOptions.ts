@@ -26,6 +26,7 @@ export const authOptions: NextAuthOptions = {
         // If the access token has not expired yet, return it
         return token;
       } else {
+        // Refresh token
         if (!token.refreshToken) throw new Error("Missing refresh token");
 
         try {
@@ -36,14 +37,22 @@ export const authOptions: NextAuthOptions = {
               client_id: process.env.SPOTIFY_CLIENT_ID as string,
               grant_type: "refresh_token",
               refresh_token: token.refreshToken as string,
+              client_secret: process.env.SPOTIFY_CLIENT_SECRET as string, //added
             }),
           });
 
-          const tokens = await res.json();
+          const tokenJSON = await res.json();
+          if (!res.ok) throw tokenJSON;
 
-          if (!res.ok) throw tokens;
+          if (!tokenJSON.refresh_token) {
+            return token;
+          }
 
-          return tokens;
+          token.expires_at = Date.now() - tokenJSON.expires_in * 1000;
+          token.accessToken = tokenJSON.access_token;
+          token.refreshToken = tokenJSON.refresh_token;
+
+          return token;
         } catch (error) {
           console.error("Error refreshing access token", error);
           // The error property will be used client-side to handle the refresh token error
