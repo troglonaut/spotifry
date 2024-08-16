@@ -5,25 +5,24 @@ import {
   Avatar,
   Button,
   IconButton,
-  Link,
   Menu,
   MenuItem,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import defaultProfileImage from "@/public/images/profile.png";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function TheAppBar() {
-  const [profileImageSrc, setProfileImageSrc] = useState(
-    defaultProfileImage.src
-  );
-
   const session = useSession();
   if (!session) {
     redirect("/login");
   }
+
+  const [profileImageSrc, setProfileImageSrc] = useState(
+    (session.data?.user as AuthUser)?.picture as string
+  );
 
   const router = useRouter();
 
@@ -38,25 +37,19 @@ export default function TheAppBar() {
     setProfileMenuAnchorEl(event.currentTarget);
   };
 
-  const handleProfileMenuClose = () => {
-    setProfileMenuAnchorEl(null);
-  };
+  const handleProfileMenuClose = () => setProfileMenuAnchorEl(null);
 
   const navToProfile = () => {
     router.push("profile");
     setProfileMenuAnchorEl(null);
   };
 
-  const logout = () => {
-    signOut();
-  };
+  const logout = () => signOut();
 
   const { data } = session;
 
-  useLayoutEffect(() => {
-    const src =
-      ((session.data?.user as AuthUser)?.picture as string) ||
-      defaultProfileImage.src;
+  useEffect(() => {
+    const src = ((session.data?.user as AuthUser)?.picture as string) || "";
 
     setProfileImageSrc(src);
   }, [session.data?.user]);
