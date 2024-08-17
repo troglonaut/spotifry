@@ -509,10 +509,18 @@ export interface ObjWithStringKeys {
   [key: string]: any;
 }
 
-export interface seriesDatum {
-  id: string;
-  value: number;
-  label: string;
+export interface CreateSearchParamsParams extends ObjWithStringKeys {
+  additional_types?: string;
+  after?: string;
+  fields?: string;
+  include_external?: "audio";
+  limit?: number;
+  locale?: string;
+  market?: string;
+  offset?: number;
+  q?: string;
+  time_range?: TimeRange;
+  type?: string;
 }
 
 type Modify<T, R> = Omit<T, keyof R> & R;

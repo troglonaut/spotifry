@@ -1,4 +1,10 @@
-import { AuthSession, SearchType, SpotifyUser, TimeRange } from "@/types/types";
+import {
+  AuthSession,
+  CreateSearchParamsParams,
+  SearchType,
+  SpotifyUser,
+  TimeRange,
+} from "@/types/types";
 import { getServerSession } from "next-auth/next";
 import defaultProfileImage from "@/public/images/profile.png";
 import { StaticImageData } from "next/image";
@@ -64,43 +70,18 @@ export const profileImg = ({
   return { profileImgSrc, profileImgHeight, profileImgWidth };
 };
 
-export const createSearchParams = ({
-  additional_types,
-  after,
-  fields,
-  include_external,
-  limit,
-  locale,
-  market,
-  offset,
-  q,
-  time_range,
-  type,
-}: {
-  additional_types?: string;
-  after?: string;
-  fields?: string;
-  include_external?: "audio";
-  limit?: number;
-  locale?: string;
-  market?: string;
-  offset?: number;
-  q?: string;
-  time_range?: TimeRange;
-  type?: string;
-}): URLSearchParams => {
+export const createSearchParams = (
+  params: CreateSearchParamsParams
+): URLSearchParams => {
   const searchParams = new URLSearchParams();
-  if (limit) searchParams.set("limit", limit.toString());
-  if (fields) searchParams.set("fields", fields);
-  if (additional_types) searchParams.set("additional_types", additional_types);
-  if (after) searchParams.set("after", after);
-  if (include_external) searchParams.set("include_external", include_external);
-  if (market) searchParams.set("market", market);
-  if (time_range) searchParams.set("time_range", time_range);
-  if (locale) searchParams.set("locale", locale);
-  if (offset) searchParams.set("offset", offset.toString());
-  if (type) searchParams.set("type", type);
-  if (q) searchParams.set("q", q);
+  for (const key in params) {
+    const val = params[key];
+    const value =
+      typeof val === "number" ? params[key].toString() : params[key];
+
+    // Don't assign values of undefined or null
+    value && searchParams.set(key, value);
+  }
   return searchParams;
 };
 
