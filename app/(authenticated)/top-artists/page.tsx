@@ -1,26 +1,38 @@
 import { getMyTopItems } from "@/app/lib/actions";
 import { getAuthSession } from "@/app/utils/serverUtils";
-import { ArtistObject, TimeRange } from "@/types/types";
-import { Typography } from "@mui/material";
+import { ArtistObject, TimeRange, ObjWithStringKeys } from "@/types/types";
+import { Grid, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
+import Image from "next/image";
+import defaultProfileImage from "@/public/images/profile.png";
 
-export const metadata = {
-  title: "My Top Artists",
-};
+export const metadata = { title: "My Top Artists" };
 
 export default async function TopArtistsPage() {
   const session = await getAuthSession();
-  if (!session) {
-    redirect("/login");
-  }
+  if (!session) redirect("/login");
 
   function artistList(artistList: ArtistObject[]) {
     return (
-      <ol>
-        {artistList.map((artist: ArtistObject) => (
-          <li key={artist.id}>{artist.name}</li>
+      <Grid container spacing={2}>
+        {artistList.map((artist: ArtistObject, index: number) => (
+          <Grid item xs={3} key={artist.id}>
+            <div className="flex flex-col justify-between h-full">
+              <Typography variant="h5">
+                {`${index + 1}. ${artist.name}`}
+              </Typography>
+              <Image
+                src={
+                  (artist.images[0]?.url as string) || defaultProfileImage.src
+                }
+                alt={`${artist.name} image`}
+                width={500}
+                height={500}
+              />
+            </div>
+          </Grid>
         ))}
-      </ol>
+      </Grid>
     );
   }
 

@@ -4,6 +4,21 @@ import { List, ListItemButton, ListItemText, Typography } from "@mui/material";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import defaultPlaylistImage from "@/public/images/playlist.png";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const session = await getAuthSession();
+  if (!session) return { title: "Playlist" };
+
+  const playlist = await getPlaylist(session, params.id);
+  if (!playlist || (playlist as any).error) return { title: "Playlist" };
+
+  return { title: playlist.name };
+}
 
 export default async function PlaylistPage({
   params,
