@@ -19,12 +19,11 @@ export default function TheAppBar() {
   if (!session) {
     redirect("/login");
   }
+  const router = useRouter();
 
   const [profileImageSrc, setProfileImageSrc] = useState(
     (session.data?.user as AuthUser)?.picture as string
   );
-
-  const router = useRouter();
 
   const [profileMenuAnchorEl, setProfileMenuAnchorEl] =
     useState<null | HTMLElement>(null);

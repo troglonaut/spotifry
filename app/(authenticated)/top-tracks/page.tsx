@@ -1,7 +1,7 @@
 import { getMyTopItems } from "@/app/lib/actions";
 import { getAuthSession } from "@/app/utils/serverUtils";
 import { ObjWithStringKeys, TimeRange, TrackObject } from "@/types/types";
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 import { BarChart } from "@/app/lib/mui";
 
@@ -77,7 +77,8 @@ export default async function TopTracksPage() {
     <>
       <Typography variant="h1">My Top Tracks</Typography>
       <Typography variant="h2">Long-term</Typography>
-      <div className="flex">
+      <Divider variant="middle" />
+      <div className="flex justify-between">
         {trackListLong}
         <div>
           <Typography variant="h3">Tracks by Year</Typography>
@@ -107,7 +108,7 @@ export default async function TopTracksPage() {
       </div>
 
       <Typography variant="h2">Medium-term</Typography>
-      <div className="flex">
+      <div className="flex justify-between">
         {trackListMed}
         <div>
           <Typography variant="h3">Tracks by Year</Typography>
@@ -136,7 +137,7 @@ export default async function TopTracksPage() {
       </div>
 
       <Typography variant="h2">Short-term</Typography>
-      <div className="flex">
+      <div className="flex justify-between">
         {trackListShort}
         <div>
           <Typography variant="h3">Tracks by Year</Typography>
