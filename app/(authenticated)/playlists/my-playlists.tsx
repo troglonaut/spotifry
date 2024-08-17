@@ -29,26 +29,27 @@ export default function MyPlaylistsTable({ data }: { data: PlaylistOfMine[] }) {
         grow: true,
         id: "name",
         maxSize: 130,
-        Cell: ({ renderedCellValue }) => {
+        Cell: ({ renderedCellValue, row }) => {
           const [name, src] = (renderedCellValue as string).split(delimiter);
           return (
-            <Box
-              sx={{
-                ...sxOverflowEllipse,
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-              }}
-            >
-              <Image
-                src={src || defaultPlaylistImage}
-                alt="playlist image"
-                width="30"
-                height="30"
-                priority
-              />
-              <Typography sx={sxOverflowEllipse}>{name}</Typography>
-            </Box>
+            <Link href={`/playlists/${row.original.id}`}>
+              <Box
+                sx={{
+                  ...sxOverflowEllipse,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
+              >
+                <Image
+                  src={src || defaultPlaylistImage}
+                  alt="playlist image"
+                  width="30"
+                  height="30"
+                />
+                <Typography sx={sxOverflowEllipse}>{name}</Typography>
+              </Box>
+            </Link>
           );
         },
       },

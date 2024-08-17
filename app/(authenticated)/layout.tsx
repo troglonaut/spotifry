@@ -16,7 +16,7 @@ export default function RootLayout({
         <html lang="en">
           <body>
             <TheAppBar />
-            <main>{children}</main>
+            <main className="pl-5 pr-5">{children}</main>
           </body>
         </html>
       </SessionProvider>

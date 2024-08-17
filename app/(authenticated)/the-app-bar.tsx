@@ -21,26 +21,25 @@ export default function TheAppBar() {
   }
   const router = useRouter();
 
-  const [profileImageSrc, setProfileImageSrc] = useState(
+  const [avatarImgSrc, setAvatarImgSrc] = useState(
     (session.data?.user as AuthUser)?.picture as string
   );
 
-  const [profileMenuAnchorEl, setProfileMenuAnchorEl] =
-    useState<null | HTMLElement>(null);
+  const [avatarAnchorEl, setAvatarAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
 
-  const profileMenuOpen = Boolean(profileMenuAnchorEl);
+  const avatarMenuOpen = Boolean(avatarAnchorEl);
 
-  const handleProfileImgClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    setProfileMenuAnchorEl(event.currentTarget);
+  const handleAvatarClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAvatarAnchorEl(event.currentTarget);
   };
 
-  const handleProfileMenuClose = () => setProfileMenuAnchorEl(null);
+  const handleAvatarMenuClose = () => setAvatarAnchorEl(null);
 
   const navToProfile = () => {
-    router.push("profile");
-    setProfileMenuAnchorEl(null);
+    router.push("/profile");
+    setAvatarAnchorEl(null);
   };
 
   const logout = () => signOut();
@@ -50,12 +49,12 @@ export default function TheAppBar() {
   useEffect(() => {
     const src = ((session.data?.user as AuthUser)?.picture as string) || "";
 
-    setProfileImageSrc(src);
+    setAvatarImgSrc(src);
   }, [session.data?.user]);
 
   return (
     <AppBar
-      color="info"
+      color="primary"
       position="sticky"
       sx={{
         display: "flex",
@@ -71,9 +70,6 @@ export default function TheAppBar() {
       <Link href="/">
         <Button variant="contained">Home</Button>
       </Link>
-      <Link href="/users/99">
-        <Button variant="contained">99</Button>
-      </Link>
       <Link href="/playlists">
         <Button variant="contained">Playlists</Button>
       </Link>
@@ -83,14 +79,14 @@ export default function TheAppBar() {
       <Link href="/top-tracks">
         <Button variant="contained">Top Tracks</Button>
       </Link>
-      <IconButton onClick={handleProfileImgClick}>
-        <Avatar src={profileImageSrc} />
+      <IconButton onClick={handleAvatarClick}>
+        <Avatar src={avatarImgSrc} />
       </IconButton>
       <Menu
         id="profile-menu"
-        anchorEl={profileMenuAnchorEl}
-        open={profileMenuOpen}
-        onClose={handleProfileMenuClose}
+        anchorEl={avatarAnchorEl}
+        open={avatarMenuOpen}
+        onClose={handleAvatarMenuClose}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}

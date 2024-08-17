@@ -198,7 +198,7 @@ export interface Playlist {
   owner: Owner;
   public: boolean;
   snapshot_id: string;
-  tracks: TrackObject[];
+  tracks: any;
   type: "playlist";
   uri: string;
 }

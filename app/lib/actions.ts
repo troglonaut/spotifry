@@ -2,6 +2,7 @@ import {
   ArtistObject,
   AuthSession,
   GetMyPlaylistsResponse,
+  Playlist,
   SearchRequestParams,
   SearchResponse,
   SpotifyUser,
@@ -46,6 +47,21 @@ export const getMyPlaylists = async (
 ): Promise<GetMyPlaylistsResponse> => {
   const searchParams = createSearchParams({ limit, offset });
   return customFetch(`${V1_BASE}/me/playlists`, session, searchParams);
+};
+
+export const getPlaylist = async (
+  session: AuthSession,
+  playListId: string,
+  market?: string,
+  fields?: string,
+  additional_types?: string
+): Promise<Playlist> => {
+  const searchParams = createSearchParams({ market, fields, additional_types });
+  return customFetch(
+    `${V1_BASE}/playlists/${playListId}`,
+    session,
+    searchParams
+  );
 };
 
 export const getMySavedAlbums = async (
@@ -121,22 +137,6 @@ export const getUserPlaylists = async (
   return customFetch(`${V1_BASE}/users/${userId}/playlists`, session, params);
 };
 
-// export async function refreshAccessToken(
-//   accessToken: string,
-//   refreshToken: string
-// ) {
-//   return await fetch("https://accounts.spotify.com/api/token", {
-//     method: "POST",
-//     headers: {
-//       Authorization: `Bearer ${accessToken}`,
-//     },
-//     body: JSON.stringify({
-//       refresh_token: refreshToken,
-//       grant_type: "refresh_token",
-//       client_id: "none",
-//     }),
-//   }).then((res) => res.json());
-// }
 export const getNewReleases = async (
   session: AuthSession,
   limit = 20,

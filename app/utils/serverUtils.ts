@@ -65,7 +65,9 @@ export const profileImg = ({
 };
 
 export const createSearchParams = ({
+  additional_types,
   after,
+  fields,
   include_external,
   limit,
   locale,
@@ -75,7 +77,9 @@ export const createSearchParams = ({
   time_range,
   type,
 }: {
+  additional_types?: string;
   after?: string;
+  fields?: string;
   include_external?: "audio";
   limit?: number;
   locale?: string;
@@ -87,6 +91,8 @@ export const createSearchParams = ({
 }): URLSearchParams => {
   const searchParams = new URLSearchParams();
   if (limit) searchParams.set("limit", limit.toString());
+  if (fields) searchParams.set("fields", fields);
+  if (additional_types) searchParams.set("additional_types", additional_types);
   if (after) searchParams.set("after", after);
   if (include_external) searchParams.set("include_external", include_external);
   if (market) searchParams.set("market", market);
