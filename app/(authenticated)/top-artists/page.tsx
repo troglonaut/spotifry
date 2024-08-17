@@ -1,6 +1,6 @@
 import { getMyTopItems } from "@/app/lib/actions";
 import { getAuthSession } from "@/app/utils/serverUtils";
-import { ArtistObject, TimeRange, ObjWithStringKeys } from "@/types/types";
+import { ArtistObject, TimeRange } from "@/types/types";
 import { Grid, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 import Image from "next/image";
@@ -14,11 +14,11 @@ export default async function TopArtistsPage() {
 
   function artistList(artistList: ArtistObject[]) {
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={1} xs={11}>
         {artistList.map((artist: ArtistObject, index: number) => (
-          <Grid item xs={3} key={artist.id}>
-            <div className="flex flex-col justify-between h-full">
-              <Typography variant="h5">
+          <Grid item xs={2} key={artist.id}>
+            <div className="flex flex-col justify-between h-full bg-slate-100 rounded p-2">
+              <Typography variant="overline" className="truncate">
                 {`${index + 1}. ${artist.name}`}
               </Typography>
               <Image
@@ -28,6 +28,7 @@ export default async function TopArtistsPage() {
                 alt={`${artist.name} image`}
                 width={500}
                 height={500}
+                className="aspect-square rounded"
               />
             </div>
           </Grid>
@@ -40,7 +41,7 @@ export default async function TopArtistsPage() {
     "artists",
     session,
     TimeRange.long,
-    40
+    20
   );
 
   const artistListLong = artistList(myTopArtistsLong.items);
@@ -49,7 +50,7 @@ export default async function TopArtistsPage() {
     "artists",
     session,
     TimeRange.medium,
-    40
+    20
   );
 
   const artistListMed = artistList(myTopArtistsMed.items);
@@ -58,21 +59,27 @@ export default async function TopArtistsPage() {
     "artists",
     session,
     TimeRange.short,
-    40
+    20
   );
 
   const artistListShort = artistList(myTopArtistsShort.items);
 
   return (
     <>
-      <Typography variant="h1">My Top Artists</Typography>
-      <Typography variant="h2">Long-term</Typography>
+      <Typography variant="h2">My Top Artists</Typography>
+      <Typography variant="h4" className="mt-6">
+        Long-term
+      </Typography>
       {artistListLong}
 
-      <Typography variant="h2">Medium-term</Typography>
+      <Typography variant="h4" className="mt-6">
+        Medium-term
+      </Typography>
       {artistListMed}
 
-      <Typography variant="h2">Short-term</Typography>
+      <Typography variant="h4" className="mt-6">
+        Short-term
+      </Typography>
       {artistListShort}
     </>
   );
