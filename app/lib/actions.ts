@@ -26,6 +26,11 @@ export const getFollowedArtists = async (
   return customFetch(`${V1_BASE}/me/following`, session, searchParams);
 };
 
+export const getArtist = async (
+  session: AuthSession,
+  id: ArtistObject["id"]
+): Promise<ArtistObject> => customFetch(`${V1_BASE}/artists/${id}`, session);
+
 export const getFeaturedPlaylists = async (
   session: AuthSession,
   locale = "en_US",
