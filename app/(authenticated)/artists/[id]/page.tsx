@@ -9,7 +9,7 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const session = await getAuthSession();
-  if (!session) return { title: "Playlist" };
+  if (!session) return { title: "Artist" };
 
   const artist = await getArtist(session, params.id);
   if (!artist || (artist as any).error) return { title: "Artist" };

@@ -27,7 +27,7 @@ export default async function TopArtistsPage() {
                   alt={`${artist.name} image`}
                   width={300}
                   height={300}
-                  className="aspect-square object-contain rounded"
+                  className="aspect-square object-contain rounded bg-neutral-950"
                 />
               </div>
             </Link>
