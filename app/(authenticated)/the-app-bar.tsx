@@ -73,7 +73,7 @@ export default function TheAppBar() {
       <Link href="/playlists">
         <Button variant="contained">Playlists</Button>
       </Link>
-      <Link href="/top-artists">
+      <Link href="/artists/my-top-artists">
         <Button variant="contained">Top Artists</Button>
       </Link>
       <Link href="/top-tracks">

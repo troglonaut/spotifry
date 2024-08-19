@@ -4,7 +4,7 @@ import { ArtistObject, TimeRange } from "@/types/types";
 import { Grid, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import defaultProfileImage from "@/public/images/profile.png";
+import Link from "next/link";
 
 export const metadata = { title: "My Top Artists" };
 
@@ -17,20 +17,20 @@ export default async function TopArtistsPage() {
       <Grid container spacing={1} xs={11}>
         {artistList.map((artist: ArtistObject, index: number) => (
           <Grid item xs={2} key={artist.id}>
-            <div className="flex flex-col justify-between h-full bg-slate-100 rounded p-2">
-              <Typography variant="overline" className="truncate">
-                {`${index + 1}. ${artist.name}`}
-              </Typography>
-              <Image
-                src={
-                  (artist.images[0]?.url as string) || defaultProfileImage.src
-                }
-                alt={`${artist.name} image`}
-                width={500}
-                height={500}
-                className="aspect-square rounded"
-              />
-            </div>
+            <Link href={`/artists/${artist.id}`}>
+              <div className="flex flex-col justify-between h-full bg-slate-100 rounded p-2">
+                <Typography variant="overline" className="truncate">
+                  {`${index + 1}. ${artist.name}`}
+                </Typography>
+                <Image
+                  src={artist.images[0]?.url as string}
+                  alt={`${artist.name} image`}
+                  width={300}
+                  height={300}
+                  className="aspect-square object-contain rounded"
+                />
+              </div>
+            </Link>
           </Grid>
         ))}
       </Grid>
